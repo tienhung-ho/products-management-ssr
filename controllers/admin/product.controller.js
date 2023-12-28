@@ -34,8 +34,16 @@ module.exports.index = async (req, res) => {
     initPagination.totalProduct = await Product.count(find)
     const paginationObject = paginationHelper(req.query, initPagination)
 
+    // sort
+    let sort = {}
+
+    if (req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue
+    }
+
+
     const products = await Product.find(find)
-                                .sort({ position: 'desc' })
+                                .sort({ ...sort })
                                 .limit(paginationObject.limit)
                                 .skip(paginationObject.skip)
 
@@ -190,3 +198,5 @@ module.exports.details = async (req, res) => {
         res.redirect(`/${systemConfig.prefixAdmin}/product`)
     }
 }
+
+

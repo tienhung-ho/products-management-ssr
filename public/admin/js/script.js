@@ -220,3 +220,55 @@ if (uploadImage) {
     }
 }
 // End image upload
+
+// SORT START
+
+const sort = document.querySelector('[sort]')
+
+if (sort) {
+    const sortSelect = document.querySelector('[sort-select]')
+    const sortDefault = document.querySelector('[sort-clear]')
+    
+    let url = new URL(window.location.href)
+    
+    sortSelect.addEventListener('change', (e) => {
+        const value = e.target.value
+        
+        if (value !== '') {
+            let [sortKey, sortValue] = value.split('-')
+            
+            url.searchParams.set('sortKey', sortKey)
+            url.searchParams.set('sortValue', sortValue)
+            
+            window.location.href = url.href
+        }
+        else {
+            url.searchParams.delete('sortKey')
+            url.searchParams.delete('sortValue')
+        }
+    })
+
+    // Display default option
+    let sortKey = url.searchParams.get('sortKey')
+    let sortValue = url.searchParams.get('sortValue')
+
+    if (sortKey && sortValue) {
+        let value = sortKey + '-' + sortValue
+        
+        const seletedOpt = sortSelect.querySelector(`option[value='${value}'`)
+        
+        seletedOpt.setAttribute("selected", true)
+    }
+
+    // Set default 
+
+    sortDefault.addEventListener('click', () => {
+        url.searchParams.delete('sortKey')
+        url.searchParams.delete('sortValue')
+        
+        window.location.href = url.href
+    })
+}
+
+
+// END SORT

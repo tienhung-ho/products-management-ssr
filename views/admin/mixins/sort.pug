@@ -1,0 +1,22 @@
+mixin sort()  
+    div(
+        class="d-flex align-items-start"
+        sort
+    )
+        .group-form.ms-1
+            select(
+                class="form-select"
+                name="sort"
+                sort-select
+            )
+                option(value="position-desc") Vị trí giảm dần
+                option(value="position-asc") Vị trí tăng dần
+                option(value="price-desc") Giá giảm dần
+                option(value="price-asc") Giá tăng dần
+                option(value="title-asc") Tiều đề a-z
+                option(value="title-desc") Tiêu đề z-a
+
+        button(
+            class="btn btn-danger ms-1"
+            sort-clear
+        ) Mặc định

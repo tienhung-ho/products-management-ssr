@@ -4,12 +4,13 @@ const streamifier = require('streamifier')
 
 cloudinary.config({ 
     cloud_name: process.env.CLOUD_NAME, 
-    api_key: '883442119251547', 
-    api_secret: 'x-okuvhSuGLqqfyRQNqEWK-R_8E' 
+    api_key: process.env.API_KEY, 
+    api_secret: process.env.API_SECRET 
   });
 
 module.exports.upload = (req, res, next) => {
     if (req.file) {
+        console.log(req.file);
         let streamUpload = (req) => {
             return new Promise((resolve, reject) => {
                 let stream = cloudinary.uploader.upload_stream(
