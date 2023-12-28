@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const flash = require('express-flash')
 const cookieParser = require('cookie-parser')   
 const session = require('express-session')
+const path = require('path');
 
 const routeClient = require('./routes/client/index.route.js')
 const routeAdmin = require('./routes/admin/index.route.js')
@@ -22,6 +23,11 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser('SDHAERWTRW'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
+
+// embeded tiny MCE
+app.use('/tinymce', 
+    express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
 
 // method override
 app.use(methodOverride('_method'))
