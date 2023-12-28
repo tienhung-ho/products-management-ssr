@@ -1,0 +1,32 @@
+mixin pagination(paginationObject)
+    nav 
+        ul(class="pagination justify-content-center")
+
+            li(
+                class=`page-item ${paginationObject.currentPage == 1 ? "disabled" : ""}`
+            )
+                button(
+                    class="page-link"
+                    button-pagination=paginationObject.currentPage - 1
+                    tabindex="-1"
+                ) Trang trước
+
+            - for(var i = 1; i <= paginationObject.totalPage; i++)
+                li(class=`page-item ${i == paginationObject.currentPage ? "active" : ""}`)
+                    button(
+                        class="page-link"
+                        button-pagination=i
+                    ) #{i}
+
+            li(
+                class=`page-item 
+                ${paginationObject.totalPage == 0 ||
+                paginationObject.currentPage == paginationObject.totalPage 
+                ? "disabled" 
+                : ""}`
+            )
+                button(
+                    class="page-link"
+                    button-pagination=paginationObject.currentPage + 1
+                    tabindex="-1"
+                ) Trang sau

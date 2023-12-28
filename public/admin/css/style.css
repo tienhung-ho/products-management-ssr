@@ -1,0 +1,115 @@
+* {
+  border: 0px;
+  padding: 0px;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Header */
+.header {
+  background: #202020;
+  padding: 10px 0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+  
+.header .inner-logo a {
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+}
+/* End Header */
+
+/* Body */
+.body .sider {
+  width: 150px;
+  background: #323232;
+  color: #fff;
+  height: calc(100vh - 56px);
+  position: fixed;
+  top: 56px;
+  left: 0;
+}
+
+.body .main {
+  margin: 15px;
+  position: relative;
+  left: 150px;
+  width: calc(100% - 180px);
+}
+/* End Body */
+
+/* Sider */
+.sider .inner-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sider .inner-menu ul li a {
+  color: #fff;
+  display: block;
+  padding: 6px 10px;
+  border-bottom: 1px solid #515151;
+}
+/* End Sider */
+
+/* Show alert */
+
+[show-alert] {
+  position: fixed;
+  top: 10px;
+  right: 15px;
+  z-index: 999;
+}
+
+[close-alert] {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #efefef;
+  text-align: center;
+  line-height: 21px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+[show-alert].alert-hidden {
+  animation: alert-out 2s;
+  animation-fill-mode: both;
+}
+
+@keyframes alert-out {
+  from {
+    right: 15px;
+  }
+  to {
+    right: -100%;
+    display: none;
+  }
+}
+
+/* End show alert */
+
+/* Preview upload image */
+
+[preview-image] {
+  width: 180px;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  margin-top: 10px;
+}
+
+/* End preview upload image */
+
+/* Card in bootstrap */
+
+.card {
+    border: 0;
+}
+
+/* Card in bootstrap */
