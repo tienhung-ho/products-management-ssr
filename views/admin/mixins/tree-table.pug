@@ -4,7 +4,7 @@ mixin tree-table(records, level = 0)
         - const prefix = Array(level + 1).join('---- ')
 
         tr
-            td #{index + 1} 
+            td #{item.index} 
             td 
                 img(
                     src=item.thumbnail
