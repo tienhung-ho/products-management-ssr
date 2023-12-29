@@ -1,0 +1,97 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/select-tree.pug
+
+block main
+    h1(class="mb-4") Tạo danh mục sản phẩm
+
+    +alert-error(3000)
+    +alert-success(3000)
+
+    form(
+        action=`/${prefixAdmin}/product-category/create`
+        method="POST"
+        enctype="multipart/form-data"
+    )
+        .mb-3 
+            label(for="title" class="form-label") Tiêu đề danh mục
+            input(
+                type="text"
+                class="form-control"
+                id="title"
+                name="title"
+                required
+            )
+        .mb-3 
+            if(records.length)
+                label(for="parent_id" class="form-label") Danh mục cha
+                select(
+                  name='parent_id'
+                  id='parent_id'
+                  class='form-control'
+                )
+                  option(value="") -- Chọn danh mục cha --
+                  +select-tree(records)
+
+        .mb-3 
+            label(for="desc" class="form-label") Mô tả
+            textarea(
+                type="text"
+                class="form-control textarea-mce"
+                id="desc"
+                name="description"
+                rows="5"
+                textarea-mce
+            )
+        div(
+            class="mb-3"
+            upload-image
+        )
+            label(for="thumbnail" class="form-label") Hình ảnh
+            input(
+                type="file"
+                class="form-control"
+                id="thumbnail"
+                name="thumbnail"
+                accept="image/*"
+                input-image
+            )
+            img(
+                src=""
+                class="image-preview"
+                preview-image
+            )
+        .mb-3 
+            label(for="position" class="form-label") Vị trí
+                input(
+                    type="number"
+                    class="form-control"
+                    id="position"
+                    name="position"
+                    placeholder="Auto increase"
+                    min="1"
+                )
+        div(class="form-check form-check-inline mb-3")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="active"
+                name="status"
+                value="active"
+                checked
+            )
+            label(for="active" class="form-check-label") Hoạt động
+        div(class="form-check form-check-inline mb-3")
+            input(
+                type="radio"
+                class="form-check-input"
+                id="inactive"
+                name="status"
+                value="inactive"
+            )
+            label(for="inactive" class="form-check-label") Dừng hoạt động
+        .mb-3 
+            button(
+                type="submit"
+                class="btn btn-primary"
+            ) Thêm mới

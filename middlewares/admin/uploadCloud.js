@@ -8,9 +8,8 @@ cloudinary.config({
     api_secret: process.env.API_SECRET 
   });
 
-module.exports.upload = (req, res, next) => {
+module.exports.upload = async (req, res, next) => {
     if (req.file) {
-        console.log(req.file);
         let streamUpload = (req) => {
             return new Promise((resolve, reject) => {
                 let stream = cloudinary.uploader.upload_stream(
@@ -33,7 +32,7 @@ module.exports.upload = (req, res, next) => {
             next()
         }
     
-        upload(req);
+      await upload(req);
     }
     else {
         next()

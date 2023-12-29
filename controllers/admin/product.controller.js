@@ -36,8 +36,11 @@ module.exports.index = async (req, res) => {
 
     // sort
     let sort = {}
+    
+    sort.position = 'desc'
 
     if (req.query.sortKey && req.query.sortValue) {
+        delete sort.position;
         sort[req.query.sortKey] = req.query.sortValue
     }
 
@@ -138,8 +141,8 @@ module.exports.createPost = async (req, res) => {
         req.body.position = await Product.count() + 1
     }
     
-    const doc = await Product.create(req.body)
-    await doc.save()
+    const product = await Product.create(req.body)
+    await product.save()
 
     res.redirect(`/${systemConfig.prefixAdmin}/product`)
 }
