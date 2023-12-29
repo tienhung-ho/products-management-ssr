@@ -59,3 +59,49 @@ module.exports.createPost = async (req, res) => {
     }
 
 }
+
+// [GET] /admin/product-category/edit/:id
+module.exports.edit = async (req, res) => {
+
+  const id = req.params.id 
+
+  req.body.position = parseInt(req.body.position)
+  
+  const data = await ProductCategory.findOne({
+    _id: id
+  })
+
+  const record = await ProductCategory.find({
+    deleted: false
+  })
+
+  const newRecord = createTreeHelper(record)
+
+  res.render(`${systemConfig.prefixAdmin}/pages/product-category/edit.pug`, {
+    titlePage: 'Chỉnh sửa',
+    data,
+    newRecord
+})
+}
+
+// [PATCH] /admin/product-category/edit/:id
+module.exports.editPatch = async (req, res) => {
+  try {
+
+    const id = req.params.id
+
+    const record = await ProductCategory.findOneAndUpdate({
+      _id: id
+    },
+      req.body
+    )
+    await record.save()
+
+    res.redirect(`/${systemConfig.prefixAdmin}/product-category`)
+
+  }
+  catch (err) {
+      console.log(err);
+  }
+
+}

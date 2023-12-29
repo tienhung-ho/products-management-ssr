@@ -1,9 +1,12 @@
-mixin select-tree(records, flag = 1)
+mixin select-tree(records, flag = 1, currentId= '')
     each item, index in records
       - const prefix = Array(flag + 1).join(' -- ') 
-      option(value=item.id) #{prefix} #{item.title} 
+      option(
+        value=item.id
+        selected=(item.id === currentId ? true : false)
+      ) #{prefix} #{item.title} 
 
       if item.children && item.children.length > 0
-        +select-tree(item.children, flag + 1) 
+        +select-tree(item.children, flag + 1, currentId) 
     //- if(records)
     //- +select-tree(records)

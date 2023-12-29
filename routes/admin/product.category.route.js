@@ -13,12 +13,22 @@ const productCategoryController = require('../../controllers/admin/product-categ
 router.get('/', productCategoryController.index)
 
 router.get('/create', productCategoryController.create)
-
 router.post(
     '/create', 
     upload.single('thumbnail'), 
     uploadCloud.upload, 
     productCategoryController.createPost
     )
+
+router.get(
+  '/edit/:id',
+  productCategoryController.edit
+)
+router.patch(
+  '/edit/:id', 
+  upload.single('thumbnail'), 
+  uploadCloud.upload, 
+  productCategoryController.editPatch
+  )
 
 module.exports = router
