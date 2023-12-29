@@ -12,10 +12,11 @@ module.exports.index = async (req, res) => {
     }
 
     const records = await ProductCategory.find(find)
+    const tree = createTreeHelper(Array.from(records))
 
     res.render(`${systemConfig.prefixAdmin}/pages/product-category/index.pug`, {
         titlePage: 'Danh mục sản phẩm',
-        records
+        records: tree
     })
 }
 
