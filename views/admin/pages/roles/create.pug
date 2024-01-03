@@ -1,0 +1,38 @@
+extends ../../layouts/default.pug
+
+block main 
+  h1(class='mb-4') Thêm mới nhóm phân quyền
+  
+  form(
+    action=`/${prefixAdmin}/roles/create`
+    method='POST'
+  )
+    div(class='form-group')
+      lable(for='title'
+        class='text-capitalize form-label'
+      ) Tiêu đề
+      input(
+        type='text'
+        class='form-control mt-2'
+        id='title'
+        name='title'
+        require
+      )
+
+    div(class='form-group mt-2')
+      lable(for='description'
+        class='text-capitalize form-label'
+      ) mô tả
+      input(
+        type='text'
+        class='form-control mt-2'
+        id='description'
+        name='description'
+        require
+      )
+
+    div(class='form-group mt-2 d-flex')
+      button(
+        type='submit'
+        class='btn btn-outline-primary text-capitalize ms-auto w-25'
+      ) tạo mới

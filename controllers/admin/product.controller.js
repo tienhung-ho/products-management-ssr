@@ -142,7 +142,6 @@ module.exports.createPost = async (req, res) => {
     }
     
     const product = await Product.create(req.body)
-    await product.save()
 
     res.redirect(`/${systemConfig.prefixAdmin}/product`)
 }

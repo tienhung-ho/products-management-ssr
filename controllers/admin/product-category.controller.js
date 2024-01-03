@@ -49,8 +49,6 @@ module.exports.createPost = async (req, res) => {
         }
 
         const poruct = await ProductCategory.create(req.body)
-        await poruct.save()
-
         res.redirect(`/${systemConfig.prefixAdmin}/product-category`)
 
     }

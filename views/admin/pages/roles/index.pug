@@ -1,0 +1,91 @@
+extends ../../layouts/default.pug
+include ../../mixins/filter-status.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/form-change-multi.pug
+include ../../mixins/alert.pug
+include ../../mixins/sort.pug
+
+block main
+    +alert-success(5000)
+    +alert-error(4000)
+
+    h1(class="mb-4") Nhóm quyền
+        
+    .card.mb-3 
+        .card-header Danh sách
+        .card-body
+            .row 
+                .col-9
+                    +form-change-multi(`/${prefixAdmin}/product/change-multi?_method=PATCH`)
+                .col-3
+                    a(
+                        href=`/${prefixAdmin}/roles/create`
+                        class="btn btn-outline-success"
+                    ) + Thêm mới
+            table(
+                class="table table-hover table-sm"
+                multi-checkbox
+            )
+                thead
+                    tr
+                        th 
+                            input(
+                                type="checkbox"
+                                name="checkall"
+                            )
+                        th STT
+                        th Nhóm Quyền
+                        th Mô tả ngắn
+                        th Hành động
+                tbody
+                    if(group.length)
+                        each item, index in group 
+                            tr
+                                td 
+                                    input(
+                                        type="checkbox"
+                                        name="id"
+                                        value=item.id
+                                    )
+                                td #{index + 1} 
+                                td #{item.title} 
+                                td #{item.description}
+                                td 
+                                    a(
+                                        href=`/${prefixAdmin}/product/details/${item.id}`
+                                        class="btn btn-secondary btn-sm me-1"
+                                    ) Chi tiết
+                                    a(
+                                        href=`/${prefixAdmin}/product/edit/${item.id}`
+                                        class="btn btn-warning btn-sm"
+                                    ) Sửa
+                                    button(
+                                        class="btn btn-danger btn-sm ms-1"
+                                        delete-button
+                                        data-id=item.id
+                                    ) Xóa
+                    else 
+                        tr 
+                            td(
+                                colspan="8"
+                            ) 
+                                div(
+                                    class="text-center"
+                                ) Chưa có nhóm phân quyền nào được tạo.
+               
+    form(
+        id='form-change-status'
+        action=""
+        data-path=`/${prefixAdmin}/product/change-status`
+        method="POST"
+    )
+
+    form(
+        id='form-delete-item'
+        action=""
+        data-path=`/${prefixAdmin}/product/delete`
+        method="POST"
+    )
+
+    //- +pagination(paginationObject)

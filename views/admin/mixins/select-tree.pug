@@ -1,6 +1,6 @@
-mixin select-tree(records, flag = 1, currentId= '')
+mixin select-tree(records, flag = 0, currentId= '')
     each item, index in records
-      - const prefix = Array(flag + 1).join(' -- ') 
+      - const prefix = Array(flag + 1).join(' --- ') 
       option(
         value=item.id
         selected=(item.id === currentId ? true : false)

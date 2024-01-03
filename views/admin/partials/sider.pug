@@ -1,9 +1,13 @@
 .sider
   .inner-menu
-    ul 
-      li
+    ul(class='sidebar-list')
+      li(class='sidebar-item')
         a(href=`/${prefixAdmin}/dashboard`) Tổng quan
-      li
+      li(class='sidebar-item')
+        p(class='sidebar-item__group') Sản phẩm
         a(href=`/${prefixAdmin}/product`) Sản phẩm
-      li
+      li(class='sidebar-item')
         a(href=`/${prefixAdmin}/product-category/`) Danh mục sản phẩm
+      li(class='sidebar-item')
+        p(class='sidebar-item__group') Người dùng
+        a(href=`/${prefixAdmin}/roles/`) Nhóm quyền
