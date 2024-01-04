@@ -2,7 +2,7 @@
 const accountsModel = require('../../models/accounts.model')
 const roleModel = require('../../models/role.model')
 const systemConfig = require('../../config/system/index')
-const saltRounds = 10;
+const saltRounds = Number(process.env.SALTROUNDS)
 
 // hash
 const bcrypt = require('bcrypt');
@@ -79,13 +79,14 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
   try {
     const id = req.params.id
-    if (req.body.params) {
+    if (req.body.password) {
       const plainTextPassword = req.body.password;
       req.body.password = await bcrypt.hash(plainTextPassword, saltRounds);
     }
     else {
       delete req.body.password
     }
+
     await accountsModel.findOneAndUpdate({
       _id: id
     },
@@ -95,6 +96,8 @@ module.exports.editPatch = async (req, res) => {
     res.redirect(`/${systemConfig.prefixAdmin}/accounts`)
   }
   catch(err) {
+    console.log(err);
     req.flash('changeError', 'Thay đổi KHÔNG thành công')
+    res.redirect(`/${systemConfig.prefixAdmin}/accounts`)
   }
 }

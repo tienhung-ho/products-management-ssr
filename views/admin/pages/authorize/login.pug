@@ -1,0 +1,48 @@
+extends ../../layouts/authorize.pug
+include ../../mixins/alert.pug
+
+block main
+    +alert-success(3000)
+    +alert-error(3000)
+    section.vh-100
+      .container.py-5.h-100
+        .row.text-center.w-100 
+          h1 ĐĂNG NHẬP
+        .row.d-flex.align-items-center.justify-content-center.h-100
+          .col-md-8.col-lg-7.col-xl-6
+            img.img-fluid(src='https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg', alt='Phone image')
+          .col-md-7.col-lg-5.col-xl-5.offset-xl-1
+            form(
+              action=`/${prefixAdmin}/auth/login`
+              method='POST'
+            )
+              // Email input
+              .form-outline.mb-4
+                input.form-control.form-control-lg(type='email', id='email' name='email')
+                label.form-label.text-capitalize(for='email') Email
+
+              // Password input
+              .form-outline.mb-4
+                input.form-control.form-control-lg(type='password', id='password' name='password')
+                label.form-label(for='password') Mật Khẩu
+
+              .d-flex.justify-content-around.align-items-center.mb-4
+                // Checkbox
+                .form-check
+                  input.form-check-input(type='checkbox', value='', id='form1Example3', checked)
+                  label.form-check-label(for='form1Example3') Remember me
+                a(href='#!') Forgot password?
+
+              // Submit button
+              button.btn.btn-primary.btn-lg.btn-block.w-100(type='submit') Sign in
+
+              .divider.d-flex.align-items-center.my-4
+                p.text-center.fw-bold.mx-3.mb-0.text-muted.w-100 OR
+
+              a.btn.btn-primary.btn-lg.btn-block.w-100.mb-2(style='background-color: #3b5998', href='#!', role='button')
+                i.fab.fa-facebook-f.me-2
+                | Continue with Facebook
+
+              a.btn.btn-primary.btn-lg.btn-block.w-100(style='background-color: #55acee', href='#!', role='button')
+                i.fab.fa-twitter.me-2
+                | Continue with Twitter
