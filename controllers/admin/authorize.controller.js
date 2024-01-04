@@ -34,10 +34,21 @@ module.exports.loginPost = async (req, res) => {
       const hashedPasswordFromDatabase = user.password;
       const isMatch = bcrypt.compareSync(password, hashedPasswordFromDatabase);
 
+      if (user.status == 'inactive') {
+        req.flash('changeError', 'Tài khoản bị vô hiệu hóa')
+        res.redirect('back')
+      }
+
       if (isMatch) {
-        req.flash('changeSuccess', 'Đúng')
+
+        req.flash('changeSuccess', 'Đăng nhập thành công')
+
+        res.cookie("token", user.token)
         res.redirect(`/${systemConfig.prefixAdmin}/dashboard`)
+
+
       } else {
+
         req.flash('changeError', 'Sai mật khẩu')
         res.redirect('back')
       }
@@ -48,4 +59,11 @@ module.exports.loginPost = async (req, res) => {
   catch (err) {
     req.flash('changeError', '404 not found ')
   }
+}
+
+
+// [GET] /admin/auth/logout
+module.exports.logout = async (req, res) => {
+  res.clearCookie('token')
+  res.redirect(`/${systemConfig.prefixAdmin}/auth/login`)
 }

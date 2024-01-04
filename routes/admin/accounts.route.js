@@ -14,6 +14,7 @@ const uploadCloud = require('../../middlewares/admin/uploadCloud.js')
 
 const accountsController = require('../../controllers/admin/accounts.controller.js')
 
+
 router.get('/', accountsController.index)
 
 router.get('/create', accountsController.create)

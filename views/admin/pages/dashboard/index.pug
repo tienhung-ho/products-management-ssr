@@ -1,4 +1,7 @@
-extend ../../layouts/default.pug 
+extends  ../../layouts/default.pug 
+include ../../mixins/alert.pug
 
-block main 
-    h1 Trang tong quan
+block main
+  +alert-success(3000)
+  +alert-error(3000)
+  h1 Trang tong quan

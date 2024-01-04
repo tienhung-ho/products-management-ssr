@@ -5,18 +5,24 @@ const rolesRouter = require('./roles.route.js')
 const accountRouter = require('./accounts.route')
 const authorizeRouter = require('./authorize.route')
 
+// Authorize middleware
+const authorizeMiddle = require('../../middlewares/admin/authorize.js')
+
+
 module.exports = (app) => {
     const PATH_ADMIN = '/' + app.locals.prefixAdmin
 
-    app.use(PATH_ADMIN + '/dashboard', dashboardRouter)
+    app.use(PATH_ADMIN + '/dashboard', 
+    authorizeMiddle.requireAuthorize,
+    dashboardRouter)
 
-    app.use(PATH_ADMIN + '/product', productRouter)
+    app.use(PATH_ADMIN + '/product', authorizeMiddle.requireAuthorize, productRouter)
 
-    app.use(PATH_ADMIN + '/product-category', productCategoryRouter)
+    app.use(PATH_ADMIN + '/product-category', authorizeMiddle.requireAuthorize, productCategoryRouter)
 
-    app.use(PATH_ADMIN + '/roles', rolesRouter)
+    app.use(PATH_ADMIN + '/roles', authorizeMiddle.requireAuthorize, rolesRouter)
 
-    app.use(PATH_ADMIN + '/accounts', accountRouter)
+    app.use(PATH_ADMIN + '/accounts', authorizeMiddle.requireAuthorize, accountRouter)
 
     app.use(PATH_ADMIN + '/auth', authorizeRouter)
 
