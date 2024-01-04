@@ -1,7 +1,8 @@
 const dashboardRouter = require('./dashboard.route.js')
 const productRouter = require('./product.route.js')
-const productCategory = require('./product.category.route.js')
-const roles = require('./roles.route.js')
+const productCategoryRouter = require('./product.category.route.js')
+const rolesRouter = require('./roles.route.js')
+const accountRouter = require('./accounts.route')
 
 module.exports = (app) => {
     const PATH_ADMIN = '/' + app.locals.prefixAdmin
@@ -10,7 +11,11 @@ module.exports = (app) => {
 
     app.use(PATH_ADMIN + '/product', productRouter)
 
-    app.use(PATH_ADMIN + '/product-category', productCategory)
+    app.use(PATH_ADMIN + '/product-category', productCategoryRouter)
 
-    app.use(PATH_ADMIN + '/roles', roles)
+    app.use(PATH_ADMIN + '/roles', rolesRouter)
+
+    app.use(PATH_ADMIN + '/accounts', accountRouter)
+
+
 }   

@@ -1,0 +1,121 @@
+extends ../../layouts/default.pug 
+include ../../mixins/alert.pug
+
+block main 
+    +alert-error(3000)
+    form(
+        action=`/${prefixAdmin}/accounts/create`
+        method="POST"
+        enctype="multipart/form-data"
+    )
+        .mb-3 
+            label(
+                for="fullName"
+                class="form-label text-capitalize"
+            ) Full name
+            input(
+                type="text"
+                id="fullName"
+                name="fullName"
+                class="form-control"
+            )
+        div(
+            class="mb-3"
+            upload-image
+          )
+            label(
+                for="avatar"
+                class="form-label"
+            ) Ảnh
+            input(
+                type="file"
+                id="avatar"
+                name="avatar"
+                class="form-control"
+                accept="image/*"
+                input-image
+            )
+            img(
+                preview-image
+            )
+        .mb-3 
+            label(
+                for="email"
+                class="form-label"
+            ) Email
+            input(
+                type="email"
+                id="email"
+                name="email"
+                class="form-control"
+            )
+
+        .mb-3 
+            label(
+                for="password"
+                class="form-label"
+            ) Mật khẩu
+            input(
+                type="password"
+                id="password"
+                name="password"
+                class="form-control"
+                palceholder='******'
+            ) 
+        .mb-3 
+            label(
+                for="phone"
+                class="form-label"
+            ) Phone
+            input(
+                type="text"
+                id="phone"
+                name="phone"
+                class="form-control"
+            )
+        .form-group
+            label(
+                for="role_id"
+                class="form-label"
+            ) Phân quyền
+            select(name="role_id"
+              id='role_id'
+              class='form-control'
+            ) 
+              option(disable) -- Chọn --
+              
+              each item in roles
+                option(value=item._id) #{item.title}
+               
+        .mb-3.form-check.form-check-inline
+            input(
+                type="radio"
+                class="form-check-input"
+                id="active"
+                name="status"
+                value="active"
+                checked
+            ) 
+            label(
+                for="active"
+                class="form-check-label"
+            ) Hoạt động
+        .mb-3.form-check.form-check-inline
+            input(
+                type="radio"
+                class="form-check-input"
+                id="inactive"
+                name="status"
+                value="inactive"
+            )
+            label(
+                for="inactive"
+                class="form-check-label"
+            ) Dừng hoạt động
+        .mb-3
+            button(
+                class="btn btn-primary"
+                type="submit"
+            ) Tạo mới
+            
+

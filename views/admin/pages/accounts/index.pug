@@ -1,0 +1,120 @@
+extends ../../layouts/default.pug
+include ../../mixins/filter-status.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/form-change-multi.pug
+include ../../mixins/alert.pug
+include ../../mixins/sort.pug
+
+block main
+    +alert-success(5000)
+    +alert-error(4000)
+
+    h1(class="mb-4") Tài khoản
+        
+    .card.mb-3 
+        .card-header Danh sách
+        .card-body
+            .row(class='d-flex')
+                .col-9
+                    //- +form-change-multi(`/${prefixAdmin}/product/change-multi?_method=PATCH`)
+                .col-3
+                    a(
+                        href=`/${prefixAdmin}/accounts/create`
+                        class="btn btn-outline-success ms-auto w-75"
+                    ) + Thêm mới
+            table(
+                class="table table-hover table-sm"
+                multi-checkbox
+            )
+                thead
+                    tr
+                        th 
+                            input(
+                                type="checkbox"
+                                name="checkall"
+                            )
+                        th STT
+                        th(class="text-capitalize text-center") Họ tên
+                        th(class="text-capitalize text-center") ảnh đại diện
+                        th(class="text-capitalize text-center") email
+                        th(class="text-capitalize text-center") Nhóm quyền
+                        th(class="text-capitalize text-center") trạng thái
+                        th(class="text-capitalize text-center") phone
+                        th(class="text-capitalize text-center") hành động
+                tbody
+                    if(records.length)
+                        each item, index in records 
+                            tr
+                                td 
+                                    input(
+                                        type="checkbox"
+                                        name="id"
+                                        value=item.id
+                                    )
+                                td(class="text-center") #{index + 1} 
+                                td(class="text-center")  #{item.fullName}
+                                td(class="text-center")  
+                                  img(
+                                      src=item.avatar
+                                      alt=item.fullName
+                                      width="100px"
+                                      height="auto"
+                                  ) 
+                                td(class="text-center")  #{item.email}
+                                td(class="text-center")  #{item.role.title}
+                                td(class="text-center")  
+                                    if item.status == 'active'
+                                        button(
+                                            class="btn btn-sm btn-success"
+                                            button-change-status
+                                            data-status=item.status
+                                            data-id=item.id
+                                        ) Hoạt động 
+                                    else 
+                                        button(
+                                            class="btn btn-sm btn-danger"
+                                            button-change-status
+                                            data-status=item.status
+                                            data-id=item.id
+                                        ) Dừng hoạt động
+                                td(class="text-center")  #{item.phone}
+                                td(class="text-center")  
+                                    a(
+                                        href=``
+                                        class="btn btn-secondary btn-sm me-1"
+                                    ) Chi tiết
+                                    a(
+                                        href=`/${prefixAdmin}/accounts/edit/${item.id}`
+                                        class="btn btn-warning btn-sm"
+                                    ) Sửa
+                                    button(
+                                        class="btn btn-danger btn-sm ms-1"
+                                        delete-button
+                                        data-id=item.id
+                                    ) Xóa
+                    else 
+                        tr 
+                            td(
+                                colspan="8"
+                            ) 
+                                div(
+                                    class="text-center"
+                                ) Chưa có tài khoản nào được tạo.
+               
+    form(
+        id='form-change-status'
+        action=""
+        data-path=`/${prefixAdmin}/product/change-status`
+        method="POST"
+    )
+
+    form(
+        id='form-delete-item'
+        action=`/${prefixAdmin}/roles/delete?_method=PATCH`
+        method="POST"
+        data-path=`/${prefixAdmin}/roles/delete`
+        enctype="multipart/form-data"
+    )
+
+    //- +pagination(paginationObject)
