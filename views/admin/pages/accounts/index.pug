@@ -20,6 +20,7 @@ block main
                 .col-9
                     //- +form-change-multi(`/${prefixAdmin}/product/change-multi?_method=PATCH`)
                 .col-3
+                  if role.permissions.includes('accounts__create')
                     a(
                         href=`/${prefixAdmin}/accounts/create`
                         class="btn btn-outline-success ms-auto w-75"

@@ -21,15 +21,15 @@ module.exports.index = async (req, res) => {
 module.exports.create = async (req, res) => {
   const permissions = res.locals.role.permissions
 
-  if (permissions.includes('roles__create')) {
+  // if (permissions.includes('roles__create')) {
     res.render(`${systemConfig.prefixAdmin}/pages/roles/create`, {
       titlePage: 'Roles create'
       , group: []
     })
-  }
-  else {
-    return
-  }
+  // }
+  // else {
+  //   return
+  // }
 }
 
 // [POST] /admin/roles/create
@@ -82,9 +82,9 @@ module.exports.deleteItem = async (req, res) => {
 // [GET] /admin/roles/edit/:id
 module.exports.edit = async (req, res) => {
   try {
-    const permissions = res.locals.role.permissions
+    // const permissions = res.locals.role.permissions
 
-    if (permissions.includes('roles__edit')) {
+    // if (permissions.includes('roles__edit')) {
       const id = req.params.id
       const record = await rolesModel.findOne({
         _id: id
@@ -94,17 +94,17 @@ module.exports.edit = async (req, res) => {
         titlePage: 'Roles edit'
         , record
       })
-    }
-    else {
-      return
-    }
+    // }
+    // else {
+    //   return
+    // }
   }
   catch (err) {
     console.log(err);
   }
 }
 
-// [GET] /admin/roles/edit/:id
+// [PATCH] /admin/roles/edit/:id
 module.exports.editPatch = async (req, res) => {
   try {
     const permissions = res.locals.role.permissions
@@ -132,9 +132,9 @@ module.exports.editPatch = async (req, res) => {
 // [GET] /admin/roles/permissions
 module.exports.permissions = async (req, res) => {
   try {
-    const permissions = res.locals.role.permissions
+    // const permissions = res.locals.role.permissions
 
-    if (permissions.includes('roles__permissions')) {
+    // if (permissions.includes('roles__permissions')) {
       const records = await rolesModel.find({
         deleted: false
       })
@@ -144,10 +144,10 @@ module.exports.permissions = async (req, res) => {
         records
     
       })
-    }
-    else {
-      return
-    }
+    // }
+    // else {
+    //   return
+    // }
   }
   catch(err) {
     console.log(err);

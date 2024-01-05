@@ -80,9 +80,9 @@ module.exports.createPost = async (req, res) => {
 // [GET] /admin/product-category/edit/:id
 module.exports.edit = async (req, res) => {
   try {
-    const permissions = res.locals.role.permissions
+    // const permissions = res.locals.role.permissions
 
-    if (permissions.includes('products-ct__edit')) {
+    // if (permissions.includes('products-ct__edit')) {
 
       const id = req.params.id
     
@@ -103,10 +103,10 @@ module.exports.edit = async (req, res) => {
         data,
         newRecord
       })
-    }
-    else {
-      return
-    }
+    // }
+    // else {
+    //   return
+    // }
   }
   catch(err) {
     console.log(err);

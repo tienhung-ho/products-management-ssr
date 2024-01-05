@@ -36,9 +36,9 @@ module.exports.index = async (req, res) => {
 // [GET] /admin/accounts/create
 module.exports.create = async (req, res) => {
   try {
-    const permissions = res.locals.role.permissions
+    // const permissions = res.locals.role.permissions
 
-    if (permissions.includes('accounts__create')) {
+    // if (permissions.includes('accounts__create')) {
       const roles = await roleModel.find({
         deleted: false
       })
@@ -47,10 +47,10 @@ module.exports.create = async (req, res) => {
         titlePage: 'Acounts create',
         roles,
       })
-    }
-    else {
-      return
-    }
+    // }
+    // else {
+    //   return
+    // }
   }
   catch(err) {
     console.log(err);
@@ -84,9 +84,9 @@ module.exports.createPost = async (req, res) => {
 module.exports.edit = async (req, res) => {
 
   try {
-    const permissions = res.locals.role.permissions
+    // const permissions = res.locals.role.permissions
 
-    if (permissions.includes('accounts__edit')) {
+    // if (permissions.includes('accounts__edit')) {
 
       const id = req.params.id
     
@@ -103,10 +103,10 @@ module.exports.edit = async (req, res) => {
         record,
         roles
       })
-    }
-    else {
-      return
-    }
+    // }
+    // else {
+    //   return
+    // }
   }
   catch(err) {
     console.log(err);

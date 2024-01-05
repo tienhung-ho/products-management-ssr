@@ -161,12 +161,12 @@ module.exports.deleteItem = async (req, res) => {
 module.exports.create = async (req, res) => {
   const permissions = res.locals.role.permissions
 
-  if (permissions.includes('products__create')) {
+  // if (permissions.includes('products__create')) {
     res.render(`${systemConfig.prefixAdmin}/pages/product/create.pug`, {
       titlePage: 'Create product',
     })
 
-  }
+  // }
 }
 
 // [POST] /admin/product/create
@@ -204,19 +204,19 @@ module.exports.createPost = async (req, res) => {
 module.exports.edit = async (req, res) => {
 
   try {
-    const permissions = res.locals.role.permissions
+    // const permissions = res.locals.role.permissions
 
-    if (permissions.includes('products__edit')) {
+    // if (permissions.includes('products__edit')) {
       const product = await Product.findById({ _id: req.params.id })
   
       res.render(`${systemConfig.prefixAdmin}/pages/product/edit.pug`, {
         titlePage: 'Edit product',
         product
       })
-    }
-    else {
-      return
-    }
+    // }
+    // else {
+    //   return
+    // }
   } catch (error) {
     res.redirect(`/${systemConfig.prefixAdmin}/product`)
   }
@@ -227,9 +227,9 @@ module.exports.edit = async (req, res) => {
 
 module.exports.editPatch = async (req, res) => {
   try {
-    const permissions = res.locals.role.permissions
+    // const permissions = res.locals.role.permissions
 
-    if (permissions.includes('products__edit')) {
+    // if (permissions.includes('products__edit')) {
 
       req.body.price = parseInt(req.body.price)
       req.body.discountPercentage = parseFloat(req.body.discountPercentage)
@@ -247,10 +247,10 @@ module.exports.editPatch = async (req, res) => {
       req.flash('changeSuccess', 'Đã cập nhật thông tin sản phẩm thành công!')
     
       res.redirect(`/${systemConfig.prefixAdmin}/product`)
-    }
-    else {
-      return
-    }
+    // }
+    // else {
+    //   return
+    // }
   }
   catch(err) {
 
