@@ -1,7 +1,8 @@
 extend ../../layouts/default.pug 
 include ../../mixins/alert.pug
 
-block main 
+block main
+  if role.permissions.includes('products__create')
     +alert-error(3000)
     form(
         action=`/${prefixAdmin}/product/create`
@@ -131,5 +132,10 @@ block main
                 class="btn btn-primary"
                 type="submit"
             ) Tạo mới
-            
+  else 
+        div(class='mt-20')
+            h4 Account does not have permission to view this page
+            i Contact 
+            strong administrator
+            i  to add permissions to your account          
 

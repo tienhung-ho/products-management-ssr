@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
 block main 
+  if role.permissions.includes('accounts__create')
     +alert-error(3000)
     form(
         action=`/${prefixAdmin}/accounts/create`
@@ -82,7 +83,7 @@ block main
               id='role_id'
               class='form-control'
             ) 
-              option(disable) -- Chọn --
+              option(disabled) -- Chọn --
               
               each item in roles
                 option(value=item._id) #{item.title}
@@ -117,5 +118,10 @@ block main
                 class="btn btn-primary"
                 type="submit"
             ) Tạo mới
-            
+  else 
+      div(class='mt-20')
+          h4 Account does not have permission to view this page
+          i Contact 
+          strong administrator
+          i  to add permissions to your account          
 

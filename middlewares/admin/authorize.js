@@ -10,7 +10,12 @@ module.exports.requireAuthorize = async (req, res, next) => {
     })
 
     if (user) {
-      const role = await rolesModel.find({})
+      const role = await rolesModel.findOne({
+        _id: user.role_id
+      }).select('title permissions')
+
+      res.locals.user = user
+      res.locals.role = role
       next()
     }
     else {

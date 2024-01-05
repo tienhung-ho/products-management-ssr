@@ -7,142 +7,178 @@ include ../../mixins/alert.pug
 include ../../mixins/sort.pug
 
 block main
-  +alert-success(5000)
-  +alert-error(4000)
+  if role.permissions.includes('roles__permissions')
+    +alert-success(5000)
+    +alert-error(4000)
 
-  h1(class="mb-4") Phân quyền
-      
-  .card.mb-3 
-      .card-header Danh sách
-      .card-body
-          .row(class='d-flex')
-              button(
-                  type='submit'
-                  button-submit
-                  class="btn btn-outline-success ms-auto w-25"
-              ) + Cập nhật
-          table(
-              class="table table-hover table-sm"
-              tb-permissions
-          )
-            div(data-records=records)
-            thead
-              tr
-                th(class='text-center') Tính năng
-                each item in records
-                  th(class='text-center') #{item.title}
-            tbody
-              tr(data-name="id")
-                td
-                each item in records
-                  td(class='text-center'
-                    
-                  )
-                    input(
-                      type='text'
-                      class='d-none'
-                      value=item.id
+    h1(class="mb-4") Phân quyền
+        
+    .card.mb-3 
+        .card-header Danh sách
+        .card-body
+            .row(class='d-flex')
+                button(
+                    type='submit'
+                    button-submit
+                    class="btn btn-outline-success ms-auto w-25"
+                ) + Cập nhật
+            table(
+                class="table table-hover table-sm"
+                tb-permissions
+            )
+              div(data-records=records)
+              thead
+                tr
+                  th(class='text-center') Tính năng
+                  each item in records
+                    th(class='text-center') #{item.title}
+              tbody
+                tr(data-name="id")
+                  td
+                  each item in records
+                    td(class='text-center'
+                      
                     )
-              tr
-                td(colspan='4')
-                  b Danh mục sản phẩm
-              
-              tr(data-name='products-ct__view')
-                td Xem
-                  each item in records
-                    td(class='text-center')
-                      input(type='checkbox')
+                      input(
+                        type='text'
+                        class='d-none'
+                        value=item.id
+                      )
+                tr
+                  td(colspan='4')
+                    b Danh mục sản phẩm
+                
+                tr(data-name='products-ct__view')
+                  td Xem
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
 
-              tr(data-name='products-ct__create') 
-                td Thêm mới
-                  each item in records
-                    td(class='text-center')
-                      input(type='checkbox')
+                tr(data-name='products-ct__create') 
+                  td Thêm mới
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
 
-              tr(data-name='products-ct__edit') 
-                td Chỉnh sửa
-                 each item in records
-                    td(class='text-center')
-                      input(type='checkbox')                  
-
-              tr(data-name='products-ct__delete') 
-                td Xóa
+                tr(data-name='products-ct__edit') 
+                  td Chỉnh sửa
                   each item in records
-                    td(class='text-center')
-                      input(type='checkbox')
-              
-              tr
-                td(colspan='4')
-                  b Sản phẩm
-              
-              tr(data-name='products__view')
-                td Xem
-                  each item in records
-                    td(class='text-center')
-                      input(type='checkbox')
+                      td(class='text-center')
+                        input(type='checkbox')                  
 
-              tr(data-name='products__create') 
-                td Thêm mới
-                  each item in records
-                    td(class='text-center')
-                      input(type='checkbox')
+                tr(data-name='products-ct__delete') 
+                  td Xóa
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
+                
+                tr
+                  td(colspan='4')
+                    b Sản phẩm
+                
+                tr(data-name='products__view')
+                  td Xem
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
 
-              tr(data-name='products__edit') 
-                td Chỉnh sửa
-                 each item in records
-                    td(class='text-center')
-                      input(type='checkbox')                  
+                tr(data-name='products__create') 
+                  td Thêm mới
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
 
-              tr(data-name='products__delete') 
-                td Xóa
+                tr(data-name='products__edit') 
+                  td Chỉnh sửa
                   each item in records
-                    td(class='text-center')
-                      input(type='checkbox')
-              
-              tr
-                td(colspan='4')
-                  b Nhóm quyền
-              
-              tr(data-name='roles__view')
-                td Xem
-                  each item in records
-                    td(class='text-center')
-                      input(type='checkbox')
+                      td(class='text-center')
+                        input(type='checkbox')                  
 
-              tr(data-name='roles__create') 
-                td Thêm mới
-                  each item in records
-                    td(class='text-center')
-                      input(type='checkbox')
+                tr(data-name='products__delete') 
+                  td Xóa
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
+                
+                tr
+                  td(colspan='4')
+                    b Tài khoản
+                
+                tr(data-name='accounts__view')
+                  td Xem
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
 
-              tr(data-name='roles__edit') 
-                td Chỉnh sửa
-                 each item in records
-                    td(class='text-center')
-                      input(type='checkbox')                  
+                tr(data-name='accounts__create') 
+                  td Thêm mới
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
 
-              tr(data-name='roles__delete') 
-                td Xóa
+                tr(data-name='accounts__edit') 
+                  td Chỉnh sửa
                   each item in records
-                    td(class='text-center')
-                      input(type='checkbox')
-              
-              tr(data-name='roles__permissions') 
-                td Phân quyền
-                  each item in records
-                    td(class='text-center')
-                      input(type='checkbox')
-  form(
-    id='form-permissions'
-    action=`/${prefixAdmin}/roles/permissions?_method=PATCH`
-    method='POST'
-  ) 
-    .form-group 
-      input(
-        type='text'
-        class='form-control d-none'
-        name='permissions'
-      )
+                      td(class='text-center')
+                        input(type='checkbox')                  
 
-  script(src="/admin/js/roles.js") 
+                tr(data-name='accounts__delete') 
+                  td Xóa
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
+                
+
+                tr
+                  td(colspan='4')
+                    b Nhóm quyền
+                
+                tr(data-name='roles__view')
+                  td Xem
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
+
+                tr(data-name='roles__create') 
+                  td Thêm mới
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
+
+                tr(data-name='roles__edit') 
+                  td Chỉnh sửa
+                  each item in records
+                      td(class='text-center')
+                        input(type='checkbox')                  
+
+                tr(data-name='roles__delete') 
+                  td Xóa
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
+                
+                tr(data-name='roles__permissions') 
+                  td Phân quyền
+                    each item in records
+                      td(class='text-center')
+                        input(type='checkbox')
+    form(
+      id='form-permissions'
+      action=`/${prefixAdmin}/roles/permissions?_method=PATCH`
+      method='POST'
+    ) 
+      .form-group 
+        input(
+          type='text'
+          class='form-control d-none'
+          name='permissions'
+        )
+
+    script(src="/admin/js/roles.js") 
+  else 
+      div(class='mt-20')
+          h4 Account does not have permission to view this page
+          i Contact 
+          strong administrator
+          i  to add permissions to your account   
 

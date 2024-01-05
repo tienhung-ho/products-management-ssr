@@ -37,14 +37,16 @@ mixin tree-table(records, level = 0)
                         data-id=item.id
                     ) Dừng hoạt động
             td 
-                a(
-                    href=`/${prefixAdmin}/product/details/${item.id}`
-                    class="btn btn-secondary btn-sm me-1"
-                ) Chi tiết
+              a(
+                  href=`/${prefixAdmin}/product/details/${item.id}`
+                  class="btn btn-secondary btn-sm me-1"
+              ) Chi tiết
+              if role.permissions.includes('products-ct__edit')
                 a(
                     href=`/${prefixAdmin}/product-category/edit/${item.id}`
                     class="btn btn-warning btn-sm"
                 ) Sửa
+              if role.permissions.includes('products-ct__delete')
                 button(
                     class="btn btn-danger btn-sm ms-1"
                     delete-button

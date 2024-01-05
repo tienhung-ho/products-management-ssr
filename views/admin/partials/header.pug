@@ -5,9 +5,12 @@ header.header
         .inner-logo
           a(href=`/${prefixAdmin}/dashboard`) ADMIN
 
-      div(class='col-9 d-flex justify-content-end'
-
+      div(
+        class='col-9 d-flex justify-content-end'
       )
+        p(style="color: white;"
+          class='mb-0 text-center d-flex align-items-center me-2'
+        ) #{user.fullName}
         a(
           href=`/${prefixAdmin}/auth/logout`
           class='d-flex btn btn text-center btn-outline-info align-middle'

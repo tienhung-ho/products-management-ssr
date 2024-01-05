@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
 block main 
+  if role.permissions.includes('accounts__edit')
     +alert-error(3000)
     form(
         action=`/${prefixAdmin}/accounts/edit/${record.id}?_method=PATCH`
@@ -122,5 +123,10 @@ block main
                 class="btn btn-primary"
                 type="submit"
             ) Chỉnh sửa
-            
+  else 
+      div(class='mt-20')
+          h4 Account does not have permission to view this page
+          i Contact 
+          strong administrator
+          i  to add permissions to your account               
 

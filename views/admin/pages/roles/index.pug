@@ -7,6 +7,7 @@ include ../../mixins/alert.pug
 include ../../mixins/sort.pug
 
 block main
+  if role.permissions.includes('roles__view')
     +alert-success(5000)
     +alert-error(4000)
 
@@ -19,6 +20,7 @@ block main
                 .col-9
                     //- +form-change-multi(`/${prefixAdmin}/product/change-multi?_method=PATCH`)
                 .col-3
+                  if role.permissions.includes('roles__create')
                     a(
                         href=`/${prefixAdmin}/roles/create`
                         class="btn btn-outline-success ms-auto w-75"
@@ -51,15 +53,18 @@ block main
                                 td #{index + 1} 
                                 td #{item.title} 
                                 td #{item.description}
-                                td 
-                                    a(
-                                        href=`/${prefixAdmin}/product/details/${item.id}`
-                                        class="btn btn-secondary btn-sm me-1"
-                                    ) Chi tiết
+                                td
+                                
+                                  a(
+                                      href=`/${prefixAdmin}/product/details/${item.id}`
+                                      class="btn btn-secondary btn-sm me-1"
+                                  ) Chi tiết
+                                  if role.permissions.includes('roles__edit')
                                     a(
                                         href=`/${prefixAdmin}/roles/edit/${item.id}`
                                         class="btn btn-warning btn-sm"
                                     ) Sửa
+                                  if role.permissions.includes('roles__delete')
                                     button(
                                         class="btn btn-danger btn-sm ms-1"
                                         delete-button
@@ -88,5 +93,10 @@ block main
         data-path=`/${prefixAdmin}/roles/delete`
         enctype="multipart/form-data"
     )
-
     //- +pagination(paginationObject)
+  else 
+      div(class='mt-20')
+          h4 Account does not have permission to view this page
+          i Contact 
+          strong administrator
+          i  to add permissions to your account   

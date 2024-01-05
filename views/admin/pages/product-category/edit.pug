@@ -3,6 +3,7 @@ include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 
 block main
+  if role.permissions.includes('products-ct__edit')
     h1(class="mb-4") Tạo danh mục sản phẩm
 
     +alert-error(3000)
@@ -98,3 +99,9 @@ block main
                 type="submit"
                 class="btn btn-primary"
             ) Chỉnh sửa
+  else 
+      div(class='mt-20')
+          h4 Account does not have permission to view this page
+          i Contact 
+          strong administrator
+          i  to add permissions to your account      

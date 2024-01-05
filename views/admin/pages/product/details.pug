@@ -1,7 +1,7 @@
 extend ../../layouts/default.pug 
 
 block main 
-
+  if role.permissions.includes('products__view')
     if (product.title)
       h1(class="mb-4") #{product.title}
     hr
@@ -57,4 +57,9 @@ block main
     if (product.description)
       div(class="mb-4") Mô tả: !{product.description}
             
-
+  else 
+        div(class='mt-20')
+            h4 Account does not have permission to view this page
+            i Contact 
+            strong administrator
+            i  to add permissions to your account

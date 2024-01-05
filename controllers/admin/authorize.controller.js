@@ -25,7 +25,6 @@ module.exports.loginPost = async (req, res) => {
       deleted: false
     })
     if (!user) {
-      console.log(user);
       req.flash('changeError', 'Email không tồn tại!')
       res.redirect('back')
       return
@@ -40,10 +39,11 @@ module.exports.loginPost = async (req, res) => {
       }
 
       if (isMatch) {
-
+        let maxAge = 60 * 60 * 1000        
+      
         req.flash('changeSuccess', 'Đăng nhập thành công')
 
-        res.cookie("token", user.token)
+        res.cookie("token", user.token ,{ maxAge:  maxAge})
         res.redirect(`/${systemConfig.prefixAdmin}/dashboard`)
 
 

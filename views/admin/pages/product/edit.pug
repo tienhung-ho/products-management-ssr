@@ -2,6 +2,7 @@ extend ../../layouts/default.pug
 include ../../mixins/alert.pug
 
 block main 
+  if role.permissions.includes('products__edit')
     +alert-success(3000)
     +alert-error(3000)
 
@@ -138,5 +139,10 @@ block main
                 class="btn btn-primary"
                 type="submit"
             ) Cập nhật
-            
+  else 
+        div(class='mt-20')
+            h4 Account does not have permission to view this page
+            i Contact 
+            strong administrator
+            i  to add permissions to your account          
 

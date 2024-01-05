@@ -7,6 +7,7 @@ include ../../mixins/alert.pug
 include ../../mixins/sort.pug
 
 block main
+  if role.permissions.includes('accounts__view')
     +alert-success(5000)
     +alert-error(4000)
 
@@ -80,14 +81,16 @@ block main
                                         ) Dừng hoạt động
                                 td(class="text-center")  #{item.phone}
                                 td(class="text-center")  
-                                    a(
-                                        href=``
-                                        class="btn btn-secondary btn-sm me-1"
-                                    ) Chi tiết
+                                  a(
+                                      href=``
+                                      class="btn btn-secondary btn-sm me-1"
+                                  ) Chi tiết
+                                  if role.permissions.includes('accounts__edit')
                                     a(
                                         href=`/${prefixAdmin}/accounts/edit/${item.id}`
                                         class="btn btn-warning btn-sm"
                                     ) Sửa
+                                  if role.permissions.includes('accounts__delete')
                                     button(
                                         class="btn btn-danger btn-sm ms-1"
                                         delete-button
@@ -118,3 +121,9 @@ block main
     )
 
     //- +pagination(paginationObject)
+  else 
+      div(class='mt-20')
+          h4 Account does not have permission to view this page
+          i Contact 
+          strong administrator
+          i  to add permissions to your account    

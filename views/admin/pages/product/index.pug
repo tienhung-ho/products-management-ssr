@@ -7,6 +7,7 @@ include ../../mixins/alert.pug
 include ../../mixins/sort.pug
 
 block main
+  if role.permissions.includes('products__view')
     +alert-success(3000)
 
     h1(class="mb-4") Danh sách sản phẩm
@@ -32,6 +33,7 @@ block main
                 .col-9
                     +form-change-multi(`/${prefixAdmin}/product/change-multi?_method=PATCH`)
                 .col-3
+                  if role.permissions.includes('products__create')
                     a(
                         href=`/${prefixAdmin}/product/create`
                         class="btn btn-outline-success"
@@ -98,14 +100,16 @@ block main
                                             data-id=item.id
                                         ) Dừng hoạt động
                                 td 
-                                    a(
-                                        href=`/${prefixAdmin}/product/details/${item.id}`
-                                        class="btn btn-secondary btn-sm me-1"
-                                    ) Chi tiết
+                                  a(
+                                      href=`/${prefixAdmin}/product/details/${item.id}`
+                                      class="btn btn-secondary btn-sm me-1"
+                                  ) Chi tiết
+                                  if role.permissions.includes('products__edit')
                                     a(
                                         href=`/${prefixAdmin}/product/edit/${item.id}`
                                         class="btn btn-warning btn-sm"
                                     ) Sửa
+                                  if role.permissions.includes('products__delete')
                                     button(
                                         class="btn btn-danger btn-sm ms-1"
                                         delete-button
@@ -135,3 +139,10 @@ block main
     )
 
     +pagination(paginationObject)
+  else 
+      div(class='mt-20')
+          h4 Account does not have permission to view this page
+          i Contact 
+          strong administrator
+          i  to add permissions to your account          
+
