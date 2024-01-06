@@ -1,10 +1,10 @@
 const Product = require('../../models/product.model.js')
+const accountsModel = require('../../models/accounts.model')
 
 const systemConfig = require('../../config/system/index')
 const filterStatusHelper = require('../../helpers/filterStatus.js')
 const searchHelper = require('../../helpers/search.js')
 const paginationHelper = require('../../helpers/pagination.js')
-const bodyParser = require('body-parser')
 
 // [GET] /admin/product
 module.exports.index = async (req, res) => {
@@ -49,6 +49,18 @@ module.exports.index = async (req, res) => {
     .sort({ ...sort })
     .limit(paginationObject.limit)
     .skip(paginationObject.skip)
+
+  for (let   item of products) {
+    const account = await accountsModel.findOne({
+      _id: item.createdBy.account_id
+    })
+
+    if (account) {
+      item.createdBy.account_name = account.fullName
+    }
+  }
+
+  
 
   res.render(`${systemConfig.prefixAdmin}/pages/product/index.pug`, {
     titlePage: 'Product',
@@ -175,17 +187,20 @@ module.exports.createPost = async (req, res) => {
     const permissions = res.locals.role.permissions
 
     if (permissions.includes('products__create')) {
+
       req.body.price = parseInt(req.body.price)
       req.body.discountPercentage = parseFloat(req.body.discountPercentage)
       req.body.stock = parseInt(req.body.stock)
-    
+      req.body.createdBy = {
+        account_id: res.locals.user.id
+      }
       if (req.body.position !== '') {
         req.body.position = parseInt(req.body.position)
       }
       else {
         req.body.position = await Product.count() + 1
       }
-    
+
       const product = await Product.create(req.body)
     
       res.redirect(`/${systemConfig.prefixAdmin}/product`)

@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const flash = require('express-flash')
 const cookieParser = require('cookie-parser')   
 const session = require('express-session')
+const moment = require('moment')
 const path = require('path');
 
 const routeClient = require('./routes/client/index.route.js')
@@ -41,6 +42,7 @@ app.use(express.static(`${ __dirname }/public`))
 
 // local variables within the application
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+app.locals.moment = moment
 
 // Routes client
 routeClient(app)
