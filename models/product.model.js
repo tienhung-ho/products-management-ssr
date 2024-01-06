@@ -21,7 +21,12 @@ const productSchema = new Schema({
         type: Boolean,
         default: false
     },
-    deletedAt: Date,
+    deletedBy: {
+      account_id: String,
+      deletedAt: {
+        type: Date,
+      }
+    },
     createdBy: {
       account_id: String,
       createdAt: {
