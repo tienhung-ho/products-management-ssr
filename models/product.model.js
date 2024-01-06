@@ -33,7 +33,13 @@ const productSchema = new Schema({
         type: Date,
         default: Date.now
       }
-    }
+    },
+    updatedBy: [
+      {
+      account_id: String,
+      updatedAt: Date
+      }
+    ],
 }, { timestamps: true })
 
 const Product = mongoose.model('Product', productSchema)

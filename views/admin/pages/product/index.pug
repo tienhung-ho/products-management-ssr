@@ -57,6 +57,7 @@ block main
                         th Vị trí
                         th Trạng thái
                         th Người tạo
+                        th Người cập nhật
                         th Hành động
                 tbody
                     if(products.length)
@@ -105,6 +106,11 @@ block main
                                   if item.createdBy.account_id
                                     span #{item.createdBy.account_name} 
                                     +formatDate(item.createdBy.createdAt)
+                                
+                                td
+                                  if item.updatedBy.account_name
+                                    span #{item.updatedBy.account_name} 
+                                    +formatDate(item.updatedBy.updatedAt)
 
                                 td 
                                   a(
