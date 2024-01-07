@@ -1,0 +1,108 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+  .container.emp-profile
+        +alert-success(3000)
+        +alert-error(3000)
+        .row
+          .col-md-4
+            .profile-img
+              img.circle.responsive-img(src=user.avatar, alt='')
+              .file.btn.btn-lg.btn-primary
+                | Change Photo
+                input(type='file', name='file')
+          .col-md-6
+            .profile-head
+              h5 #{user.fullName}
+              h6 #{role.title}
+              p.proile-rating RANKINGS : 
+                span 8/10
+              ul.nav.nav-tabs#myTab(role='tablist')
+                li.nav-item
+                  a.nav-link.active#home-tab(data-toggle='tab', href='#home', role='tab', aria-controls='home', aria-selected='true') Thông tin cá nhân
+                li.nav-item
+                  //- a.nav-link#profile-tab(data-toggle='tab', href='#profile', role='tab', aria-controls='profile', aria-selected='false') Timeline
+          .col-md-2
+            a(
+              href=`/${prefixAdmin}/my-account/edit`
+            )
+              input.profile-edit-btn(type='submit', name='btnAddMore', value='Edit Profile')
+        .row
+          .col-md-4
+            .profile-work
+              p WORK LINK
+              a(href='') Website Link
+              br
+              a(href='') Bootsnipp Profile
+              br
+              a(href='') Bootply Profile
+              p SKILLS
+              a(href='') Web Designer
+              br
+              a(href='') Web Developer
+              br
+              a(href='') WordPress
+              br
+              a(href='') WooCommerce
+              br
+              a(href='') PHP, .Net
+          .col-md-8
+            .tab-content.profile-tab#myTabContent
+              .tab-pane.fade.show.active#home(role='tabpanel', aria-labelledby='home-tab')
+                //- .row
+                //-   .col-md-6
+                //-     label Full name
+                //-   .col-md-6
+                //-     p #{user.fullName}
+                .row
+                  .col-md-6
+                    label Tên
+                  .col-md-6
+                    p #{user.fullName}
+                .row
+                  .col-md-6
+                    label Email
+                  .col-md-6
+                    p #{user.email}
+                .row
+                  .col-md-6
+                    label Phone
+                  .col-md-6
+                    p #{user.phone}
+                .row
+                  .col-md-6
+                    label Profession
+                  .col-md-6
+                    p Web Developer and Designer
+              .tab-pane.fade#profile(role='tabpanel', aria-labelledby='profile-tab')
+                .row
+                  .col-md-6
+                    label Experience
+                  .col-md-6
+                    p Expert
+                .row
+                  .col-md-6
+                    label Hourly Rate
+                  .col-md-6
+                    p 10$/hr
+                .row
+                  .col-md-6
+                    label Total Projects
+                  .col-md-6
+                    p 230
+                .row
+                  .col-md-6
+                    label English Level
+                  .col-md-6
+                    p Expert
+                .row
+                  .col-md-6
+                    label Availability
+                  .col-md-6
+                    p 6 months
+                .row
+                  .col-md-12
+                    label Your Bio
+                    br
+                    p Your detail description

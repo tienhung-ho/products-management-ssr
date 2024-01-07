@@ -54,7 +54,7 @@ module.exports.index = async (req, res) => {
     // Get user was create product
     const userCreation = await accountsModel.findOne({
       _id: item.createdBy.account_id
-    })
+    }).select('fullName')
 
     if (userCreation) {
       item.createdBy.account_name = userCreation.fullName
@@ -65,7 +65,7 @@ module.exports.index = async (req, res) => {
       
       const userUpdation = await accountsModel.findOne({
         _id: item.updatedBy.slice(-1)[0].account_id
-      })
+      }).select('fullName')
   
       if (userUpdation) {
         item.updatedBy.account_name = userUpdation.fullName

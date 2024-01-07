@@ -4,6 +4,7 @@ const productCategoryRouter = require('./product.category.route.js')
 const rolesRouter = require('./roles.route.js')
 const accountRouter = require('./accounts.route')
 const authorizeRouter = require('./authorize.route')
+const myAccountRouter = require('./my-account.ruote.js')
 
 // Authorize middleware
 const authorizeMiddle = require('../../middlewares/admin/authorize.js')
@@ -25,5 +26,7 @@ module.exports = (app) => {
     app.use(PATH_ADMIN + '/accounts', authorizeMiddle.requireAuthorize, accountRouter)
 
     app.use(PATH_ADMIN + '/auth', authorizeRouter)
+
+    app.use(PATH_ADMIN + '/my-account', authorizeMiddle.requireAuthorize, myAccountRouter)
 
 }   
