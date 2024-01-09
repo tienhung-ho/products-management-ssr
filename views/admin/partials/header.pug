@@ -1,18 +1,61 @@
 header.header
-  .container-fluid
-    .row.align-items-center
-      .col-3
-        .inner-logo
-          a(href=`/${prefixAdmin}/dashboard`) ADMIN
+  //- .container-fluid
+  //-   .row.align-items-center
+  //-     .col-3
+  //-       .inner-logo
+  //-         a(href=`/${prefixAdmin}/dashboard`) ADMIN
 
-      div(
-        class='col-9 d-flex justify-content-end'
+  //-     div(
+  //-       class='col-9 d-flex justify-content-end'
+  //-     )
+  //-       .col-9.text-end.d-flex.flex-row-reverse
+  //-       .dropdown.mt-sm-auto.ms-auto.ms-sm-0.flex-shrink-1
+  //-           a.d-flex.align-items-center.text-white.text-decoration-none.dropdown-toggle(href='#', id='dropdownUser1', data-bs-toggle='dropdown', aria-expanded='false')
+  //-               img(src=user.avatar, alt='hugenerd', width='28', height='28', class='rounded-circle')
+  //-               span.d-none.d-sm-inline.mx-1 #{user.fullName}
+  //-           ul.dropdown-menu.dropdown-menu-dark.text-small.shadow(aria-labelledby='dropdownUser1')
+  //-               li
+  //-                   a.dropdown-item(href='#') Settings
+  //-               li
+  //-                   a.dropdown-item(href=`/${prefixAdmin}/my-account`) Profile
+  //-               li
+  //-                   hr.dropdown-divider
+  //-               li
+  //-                 a.dropdown-item(
+  //-                   href=`/${prefixAdmin}/auth/logout`
+  //-                   class='d-flex btn btn text-center btn-outline-info align-middle'
+  //-                 )
+  //-                   p(style="color: white; margin-bottom: 0; margin-right: 0.2rem") Sign out
+  //-                   svg(
+  //-                     viewBox="0 0 32 32"
+  //-                     xmlns="http://www.w3.org/2000/svg"
+  //-                     width="20"
+  //-                     height="20"
+  //-                     fill='white'
+  //-                     style="cursor: pointer; "
+  //-                   )
+  //-                     defs
+  //-                       style.
+  //-                         .cls-1{fill:none;stroke:white;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;}
+  //-                     g#logout
+  //-                       line.cls-1(x1="15.92", x2="28.92", y1="16", y2="16")
+  //-                       path(d="M23.93,25v3h-16V4h16V7h2V3a1,1,0,0,0-1-1h-18a1,1,0,0,0-1,1V29a1,1,0,0,0,1,1h18a1,1,0,0,0,1-1V25Z")
+  //-                       line.cls-1(x1="28.92", x2="24.92", y1="16", y2="20")
+  //-                       line.cls-1(x1="28.92", x2="24.92", y1="16", y2="12")
+  //-                       line.cls-1(x1="24.92", x2="24.92", y1="8.09", y2="6.09")
+  //-                       line.cls-1(x1="24.92", x2="24.92", y1="26", y2="24")
+
+  header.header#header
+    .header_toggle
+      i.bx.bx-menu#header-toggle
+    div(
+      class='col-9 d-flex justify-content-end'
       )
         .col-9.text-end.d-flex.flex-row-reverse
-        .dropdown.mt-sm-auto.ms-auto.ms-sm-0.flex-shrink-1
+        .dropdown.mt-sm-auto.ms-auto.ms-sm-0.flex-shrink-1(style="color: black")
             a.d-flex.align-items-center.text-white.text-decoration-none.dropdown-toggle(href='#', id='dropdownUser1', data-bs-toggle='dropdown', aria-expanded='false')
                 img(src=user.avatar, alt='hugenerd', width='28', height='28', class='rounded-circle')
-                span.d-none.d-sm-inline.mx-1 #{user.fullName}
+                span.d-none.d-sm-inline.mx-1(style="color: black") #{user.fullName}
             ul.dropdown-menu.dropdown-menu-dark.text-small.shadow(aria-labelledby='dropdownUser1')
                 li
                     a.dropdown-item(href='#') Settings
@@ -44,4 +87,3 @@ header.header
                         line.cls-1(x1="28.92", x2="24.92", y1="16", y2="12")
                         line.cls-1(x1="24.92", x2="24.92", y1="8.09", y2="6.09")
                         line.cls-1(x1="24.92", x2="24.92", y1="26", y2="24")
-

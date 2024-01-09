@@ -4,43 +4,43 @@ const buttonStatus = document.querySelectorAll("[button-status]")
 
 if (buttonStatus.length) {
 
-    const url = new URL(window.location.href)
+  const url = new URL(window.location.href)
 
-    buttonStatus.forEach(button => {
-        button.addEventListener("click", () => {
-            const status = button.getAttribute('button-status')
-            if (status !== "") {
-                url.searchParams.set('status', status)
-            }
-            else {
-                url.searchParams.delete('status')
-            } 
-            url.searchParams.delete('page')
-            window.location.href = url.href
-        })
-    });
+  buttonStatus.forEach(button => {
+    button.addEventListener("click", () => {
+      const status = button.getAttribute('button-status')
+      if (status !== "") {
+        url.searchParams.set('status', status)
+      }
+      else {
+        url.searchParams.delete('status')
+      }
+      url.searchParams.delete('page')
+      window.location.href = url.href
+    })
+  });
 }
 // End button status
 
 // Form search
 const formSearch = document.querySelector('#form-search')
 if (formSearch) {
-    formSearch.addEventListener('submit', (e) => {
-        e.preventDefault()
-        const value = e.target.elements.keyword.value
-        
-        const url = new URL(window.location.href)
+  formSearch.addEventListener('submit', (e) => {
+    e.preventDefault()
+    const value = e.target.elements.keyword.value
 
-        if (value !== "") {
-            url.searchParams.set('keyword', value)
-            url.searchParams.delete('page')
-        }
-        else {
-            url.searchParams.delete('keyword')
-        }
+    const url = new URL(window.location.href)
 
-        window.location.href = url.href
-    })
+    if (value !== "") {
+      url.searchParams.set('keyword', value)
+      url.searchParams.delete('page')
+    }
+    else {
+      url.searchParams.delete('keyword')
+    }
+
+    window.location.href = url.href
+  })
 }
 // End form search
 
@@ -49,18 +49,18 @@ const buttonPagination = document.querySelectorAll('[button-pagination]')
 
 if (buttonPagination.length) {
 
-    const url = new URL(window.location.href)
+  const url = new URL(window.location.href)
 
-    buttonPagination.forEach(button => {
-        button.addEventListener('click', () => {
+  buttonPagination.forEach(button => {
+    button.addEventListener('click', () => {
 
-            const page = button.getAttribute('button-pagination')
+      const page = button.getAttribute('button-pagination')
 
-            url.searchParams.set('page', page)
+      url.searchParams.set('page', page)
 
-            window.location.href = url.href
-        })
+      window.location.href = url.href
     })
+  })
 }
 
 // End Pagination
@@ -70,22 +70,22 @@ if (buttonPagination.length) {
 const buttonChangeStatus = document.querySelectorAll('[button-change-status]')
 
 if (buttonChangeStatus.length) {
-    const formChangeStatus = document.querySelector('#form-change-status')
-    let path = formChangeStatus.getAttribute('data-path')
+  const formChangeStatus = document.querySelector('#form-change-status')
+  let path = formChangeStatus.getAttribute('data-path')
 
 
-    buttonChangeStatus.forEach(button => {
-        button.addEventListener('click', () => {
-            const currentStatus = button.getAttribute('data-status')
-            const id = button.getAttribute('data-id')
+  buttonChangeStatus.forEach(button => {
+    button.addEventListener('click', () => {
+      const currentStatus = button.getAttribute('data-status')
+      const id = button.getAttribute('data-id')
 
-            const changedStatus = currentStatus == 'active' ? 'inactive' : 'active'
+      const changedStatus = currentStatus == 'active' ? 'inactive' : 'active'
 
-            formChangeStatus.action = `${path}/${changedStatus}/${id}?_method=PATCH`
+      formChangeStatus.action = `${path}/${changedStatus}/${id}?_method=PATCH`
 
-            formChangeStatus.submit()
-        })
+      formChangeStatus.submit()
     })
+  })
 
 }
 
@@ -94,34 +94,34 @@ if (buttonChangeStatus.length) {
 // Multi-status
 const multiCheckbox = document.querySelector('[multi-checkbox]')
 if (multiCheckbox) {
-    const inputCheckAll = document.querySelector("input[name='checkall']")
-    const inputId = document.querySelectorAll("input[name='id']")
+  const inputCheckAll = document.querySelector("input[name='checkall']")
+  const inputId = document.querySelectorAll("input[name='id']")
 
-    inputCheckAll.addEventListener('click', () => {
-        if (inputCheckAll.checked) {
-            inputId.forEach(item => {
-                item.checked = true
-            })
-        }
-        else {
-            inputId.forEach(item => {
-                item.checked = false
-            })
-        }
-    })
+  inputCheckAll.addEventListener('click', () => {
+    if (inputCheckAll.checked) {
+      inputId.forEach(item => {
+        item.checked = true
+      })
+    }
+    else {
+      inputId.forEach(item => {
+        item.checked = false
+      })
+    }
+  })
 
-    inputId.forEach(input => {
-        input.addEventListener('click', () => {
-            const countChecked = multiCheckbox.querySelectorAll('input[name="id"]:checked').length
-            
-            if (countChecked === inputId.length) {
-                inputCheckAll.checked = true
-            }
-            else {
-                inputCheckAll.checked = false
-            }
-        })
+  inputId.forEach(input => {
+    input.addEventListener('click', () => {
+      const countChecked = multiCheckbox.querySelectorAll('input[name="id"]:checked').length
+
+      if (countChecked === inputId.length) {
+        inputCheckAll.checked = true
+      }
+      else {
+        inputCheckAll.checked = false
+      }
     })
+  })
 }
 
 // End multi-status
@@ -129,95 +129,95 @@ if (multiCheckbox) {
 // Form-change-multi
 const formChangeMulti = document.querySelector('[form-change-multi]')
 if (formChangeMulti) {
-    formChangeMulti.addEventListener('submit', (e) => {
-        e.preventDefault()
+  formChangeMulti.addEventListener('submit', (e) => {
+    e.preventDefault()
 
-        const changedType = e.target.elements.type.value
+    const changedType = e.target.elements.type.value
 
-        if (changedType === 'delete-all') {
-            const confirmDelete = confirm('Bạn có chắc chắn muốn xoá các sản phẩm này?')
-            
-            if (!confirmDelete) {
-                return
-            }
-        }
+    if (changedType === 'delete-all') {
+      const confirmDelete = confirm('Bạn có chắc chắn muốn xoá các sản phẩm này?')
 
-        const checkedInput = multiCheckbox.querySelectorAll('input[name="id"]:checked') 
-        
-        if (checkedInput.length > 0) {
-            ids = []
-            checkedInput.forEach(input => {
-                if (changedType === 'change-position') {
-                    const position = input.closest('tr').querySelector('input[name="position"]').value
-                    ids.push(`${input.value}-${position}`)
-                }
-                else {
-                    ids.push(input.value)
-                }
-            })
+      if (!confirmDelete) {
+        return
+      }
+    }
 
-            const inputIds = formChangeMulti.querySelector('input[name="ids"]')
-            inputIds.value = ids.join(', ')
-            formChangeMulti.submit()
+    const checkedInput = multiCheckbox.querySelectorAll('input[name="id"]:checked')
+
+    if (checkedInput.length > 0) {
+      ids = []
+      checkedInput.forEach(input => {
+        if (changedType === 'change-position') {
+          const position = input.closest('tr').querySelector('input[name="position"]').value
+          ids.push(`${input.value}-${position}`)
         }
         else {
-            alert('Vui lòng chọn ít nhất một sản phẩm!')
+          ids.push(input.value)
         }
-    })
+      })
+
+      const inputIds = formChangeMulti.querySelector('input[name="ids"]')
+      inputIds.value = ids.join(', ')
+      formChangeMulti.submit()
+    }
+    else {
+      alert('Vui lòng chọn ít nhất một sản phẩm!')
+    }
+  })
 }
 // End form-change-multi
 
 // Delete-button
 const deleteButton = document.querySelectorAll('button[delete-button]')
 if (deleteButton.length) {
-    const formDeleteItem = document.querySelector('#form-delete-item')
-    const path = formDeleteItem.getAttribute('data-path')
+  const formDeleteItem = document.querySelector('#form-delete-item')
+  const path = formDeleteItem.getAttribute('data-path')
 
-    deleteButton.forEach(button => {
-        button.addEventListener('click', () => {
+  deleteButton.forEach(button => {
+    button.addEventListener('click', () => {
 
-            const confirmDelete = confirm('Bạn có chắc chắn muốn xoá sản phẩm này?')
-            if (confirmDelete) {
-                id = button.getAttribute('data-id')
-                formDeleteItem.action = `${path}/${id}?_method=DELETE`
-                formDeleteItem.submit()
-            }
-        })
+      const confirmDelete = confirm('Bạn có chắc chắn muốn xoá sản phẩm này?')
+      if (confirmDelete) {
+        id = button.getAttribute('data-id')
+        formDeleteItem.action = `${path}/${id}?_method=DELETE`
+        formDeleteItem.submit()
+      }
     })
+  })
 }
 // End delete-butotn
 
 // Show alert 
 const showAlert = document.querySelector('[show-alert]')
 if (showAlert) {
-    const time = parseInt(showAlert.getAttribute('data-time')) 
-    setTimeout(() => {
-        showAlert.classList.add('alert-hidden')
-    }, time)
+  const time = parseInt(showAlert.getAttribute('data-time'))
+  setTimeout(() => {
+    showAlert.classList.add('alert-hidden')
+  }, time)
 
-    const closeAlert = showAlert.querySelector('[close-alert]')
-    closeAlert.addEventListener('click', () => {
-        showAlert.classList.add('alert-hidden')
-    })
+  const closeAlert = showAlert.querySelector('[close-alert]')
+  closeAlert.addEventListener('click', () => {
+    showAlert.classList.add('alert-hidden')
+  })
 }
 // End show alert
 
 // Preview image upload
 const uploadImage = document.querySelector('[upload-image]')
 if (uploadImage) {
-    const inputImage = uploadImage.querySelector('[input-image]')
-    const previewImage = uploadImage.querySelector('[preview-image]')
-    inputImage.addEventListener('change', (e) => {
-        previewImage.src = URL.createObjectURL(e.target.files[0]);
-        previewImage.style.display = 'block'
-        previewImage.onload = function() {
-            URL.revokeObjectURL(previewImage.src)
-        }
-    })
-
-    if (!previewImage.getAttribute("src")) {
-        previewImage.style.display = 'none'
+  const inputImage = uploadImage.querySelector('[input-image]')
+  const previewImage = uploadImage.querySelector('[preview-image]')
+  inputImage.addEventListener('change', (e) => {
+    previewImage.src = URL.createObjectURL(e.target.files[0]);
+    previewImage.style.display = 'block'
+    previewImage.onload = function () {
+      URL.revokeObjectURL(previewImage.src)
     }
+  })
+
+  if (!previewImage.getAttribute("src")) {
+    previewImage.style.display = 'none'
+  }
 }
 // End image upload
 
@@ -226,49 +226,90 @@ if (uploadImage) {
 const sort = document.querySelector('[sort]')
 
 if (sort) {
-    const sortSelect = document.querySelector('[sort-select]')
-    const sortDefault = document.querySelector('[sort-clear]')
-    
-    let url = new URL(window.location.href)
-    
-    sortSelect.addEventListener('change', (e) => {
-        const value = e.target.value
-        
-        if (value !== '') {
-            let [sortKey, sortValue] = value.split('-')
-            
-            url.searchParams.set('sortKey', sortKey)
-            url.searchParams.set('sortValue', sortValue)
-            
-            window.location.href = url.href
-        }
-        else {
-            url.searchParams.delete('sortKey')
-            url.searchParams.delete('sortValue')
-        }
-    })
+  const sortSelect = document.querySelector('[sort-select]')
+  const sortDefault = document.querySelector('[sort-clear]')
 
-    // Display default option
-    let sortKey = url.searchParams.get('sortKey')
-    let sortValue = url.searchParams.get('sortValue')
+  let url = new URL(window.location.href)
 
-    if (sortKey && sortValue) {
-        let value = sortKey + '-' + sortValue
-        
-        const seletedOpt = sortSelect.querySelector(`option[value='${value}'`)
-        
-        seletedOpt.setAttribute("selected", true)
+  sortSelect.addEventListener('change', (e) => {
+    const value = e.target.value
+
+    if (value !== '') {
+      let [sortKey, sortValue] = value.split('-')
+
+      url.searchParams.set('sortKey', sortKey)
+      url.searchParams.set('sortValue', sortValue)
+
+      window.location.href = url.href
     }
+    else {
+      url.searchParams.delete('sortKey')
+      url.searchParams.delete('sortValue')
+    }
+  })
 
-    // Set default 
+  // Display default option
+  let sortKey = url.searchParams.get('sortKey')
+  let sortValue = url.searchParams.get('sortValue')
 
-    sortDefault.addEventListener('click', () => {
-        url.searchParams.delete('sortKey')
-        url.searchParams.delete('sortValue')
-        
-        window.location.href = url.href
-    })
+  if (sortKey && sortValue) {
+    let value = sortKey + '-' + sortValue
+
+    const seletedOpt = sortSelect.querySelector(`option[value='${value}'`)
+
+    seletedOpt.setAttribute("selected", true)
+  }
+
+  // Set default 
+
+  sortDefault.addEventListener('click', () => {
+    url.searchParams.delete('sortKey')
+    url.searchParams.delete('sortValue')
+
+    window.location.href = url.href
+  })
 }
 
 
 // END SORT
+
+
+// SIDE BAR
+document.addEventListener("DOMContentLoaded", function (event) {
+
+  const showNavbar = (toggleId, navId, bodyId, headerId) => {
+    const toggle = document.getElementById(toggleId),
+      nav = document.getElementById(navId),
+      bodypd = document.getElementById(bodyId),
+      headerpd = document.getElementById(headerId)
+
+    // Validate that all variables exist
+    if (toggle && nav && bodypd && headerpd) {
+      toggle.addEventListener('click', () => {
+        // show navbar
+        nav.classList.toggle('show')
+        // change icon
+        toggle.classList.toggle('bx-x')
+        // add padding to body
+        bodypd.classList.toggle('body-pd')
+        // add padding to header
+        headerpd.classList.toggle('body-pd')
+      })
+    }
+  }
+
+  showNavbar('header-toggle', 'nav-bar', 'body-pd', 'header')
+
+  /*===== LINK ACTIVE =====*/
+  const linkColor = document.querySelectorAll('.nav_link')
+
+  function colorLink() {
+    if (linkColor) {
+      linkColor.forEach(l => l.classList.remove('active'))
+      // this.classList.add('active')
+    }
+  }
+  linkColor.forEach(l => l.addEventListener('click', colorLink))
+
+  // Your code to run since DOM is loaded and ready
+});

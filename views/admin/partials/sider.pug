@@ -1,30 +1,29 @@
-.sider.mt-0
-  .inner-menu
-    ul(class='sidebar-list')
-      li(class='sidebar-item')
-        a(href=`/${prefixAdmin}/dashboard`) Tổng quan
-      p(class='sidebar-item__group') Sản phẩm
-
-      if role.permissions.includes('products__view')
-        li(class='sidebar-item')
-          a(href=`/${prefixAdmin}/product`) Sản phẩm
-
-      if role.permissions.includes('products-ct__view')
-        li(class='sidebar-item')
-          a(href=`/${prefixAdmin}/product-category/`) Danh mục
-      if role.permissions.includes('roles__view') || role.permissions.includes('roles__permissions')
-        p(class='sidebar-item__group') Quyền
-
-      if role.permissions.includes('roles__view')
-        li(class='sidebar-item')
-          a(href=`/${prefixAdmin}/roles/`) Nhóm quyền
-
-      if role.permissions.includes('roles__permissions')
-        li(class='sidebar-item')
-          a(href=`/${prefixAdmin}/roles/permissions`) Phân quyền  
-
-      if role.permissions.includes('accounts__view')
-        p(class='sidebar-item__group') Tài khoản
-        li(class='sidebar-item')
-          a(href=`/${prefixAdmin}/accounts/`) Tài khoản
-
+body#body-pd
+  .l-navbar#nav-bar
+    nav.nav
+      div
+        a.nav_logo(href=`/${prefixAdmin}/product`)
+          i.bx.bx-layer.nav_logo-icon
+          span.nav_logo-name Admin
+        .nav_list
+          a.nav_link.active(href=`/${prefixAdmin}/dashboard`)
+            i.bx.bx-grid-alt.nav_icon
+            span.nav_name Dashboard
+          a.nav_link(href=`/${prefixAdmin}/product`)
+            i.bx.bx-folder.nav_icon
+            span.nav_name Sản phẩm
+          a.nav_link(href=`/${prefixAdmin}/product-category`)
+            i.bx.bx-bar-chart-alt.nav_icon
+            span.nav_name Danh mục
+          a.nav_link(href=`/${prefixAdmin}/accounts`)
+            i.bx.bx-user.nav_icon
+            span.nav_name Tài khoản
+          a.nav_link(href=`/${prefixAdmin}/roles/`)
+            i.bx.bx-message-square-detail.nav_icon
+            span.nav_name Nhóm quyền
+          a.nav_link(href=`/${prefixAdmin}/roles/permissions`)
+            i.bx.bx-shield-minus.nav_icon
+            span.nav_name Phân quyền
+        a.nav_link(href="#")
+          i.bx.bx-log-out.nav_icon
+          span.nav_name SignOut
