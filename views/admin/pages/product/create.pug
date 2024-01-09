@@ -1,6 +1,6 @@
-extend ../../layouts/default.pug 
+extends ../../layouts/default.pug 
 include ../../mixins/alert.pug
-
+include ../../mixins/select-tree.pug
 block main
   if role.permissions.includes('products__create')
     +alert-error(3000)
@@ -10,16 +10,50 @@ block main
         enctype="multipart/form-data"
     )
         .mb-3 
-            label(
-                for="title"
-                class="form-label"
-            ) Tiêu đề
+          label(
+              for="title"
+              class="form-label"
+          ) Tiêu đề
+          input(
+              type="text"
+              id="title"
+              name="title"
+              class="form-control"
+          )
+        .mb-3 
+            if(records.length)
+                label(for="parent_id" class="form-label") Danh mục
+                select(
+                  name='parent_id'
+                  id='parent_id'
+                  class='form-control'
+                )
+                  option(value="") -- Chọn danh mục --
+                  +select-tree(records)
+        .mb-3.form-check.form-check-inline
+          input(
+              type="radio"
+              class="form-check-input"
+              id="featured1"
+              name="featured"
+              value='1'
+          ) 
+          label(
+              for="featured1"
+              class="form-check-label"
+          ) Nổi bật
+        .mb-3.form-check.form-check-inline
             input(
-                type="text"
-                id="title"
-                name="title"
-                class="form-control"
+              type="radio"
+              class="form-check-input"
+              id="featured0"
+              name="featured"
+              checked
             )
+            label(
+                for="featured0"
+                class="form-check-label"
+            ) Không
         .mb-3 
             label(
                 for="desc"

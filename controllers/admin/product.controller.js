@@ -1,5 +1,8 @@
 const Product = require('../../models/product.model.js')
 const accountsModel = require('../../models/accounts.model')
+const ProductCategory = require('../../models/product.category.model.js')
+
+const createTreeHelper = require('../../helpers/create-tree.js')
 
 const systemConfig = require('../../config/system/index')
 const filterStatusHelper = require('../../helpers/filterStatus.js')
@@ -62,18 +65,18 @@ module.exports.index = async (req, res) => {
 
     // Get user was create product
     if (item.updatedBy.slice(-1).length > 0) {
-      
+
       const userUpdation = await accountsModel.findOne({
         _id: item.updatedBy.slice(-1)[0].account_id
       }).select('fullName')
-  
+
       if (userUpdation) {
         item.updatedBy.account_name = userUpdation.fullName
       }
     }
   }
 
-  
+
 
   res.render(`${systemConfig.prefixAdmin}/pages/product/index.pug`, {
     titlePage: 'Product',
@@ -95,8 +98,9 @@ module.exports.changeStatus = async (req, res) => {
         account_id: res.locals.user.id,
         updatedAt: new Date()
       }
-      await Product.updateOne({ _id: id }, { status: status,
-        $push: { updatedBy: updatedBy } 
+      await Product.updateOne({ _id: id }, {
+        status: status,
+        $push: { updatedBy: updatedBy }
       })
 
       req.flash('changeSuccess', 'Trang thái đã được thay đổi thành công!')
@@ -131,7 +135,8 @@ module.exports.changeMulti = async (req, res) => {
       switch (type) {
         case 'active':
         case 'inactive':
-          await Product.updateMany({ _id: { $in: idsChange } }, { status: type,
+          await Product.updateMany({ _id: { $in: idsChange } }, {
+            status: type,
             $push: { updatedBy: updatedBy }
           })
           req.flash('changeSuccess', `Đã thay đổi trang thái ${idsChange.length} sản phẩm thành công`)
@@ -149,7 +154,8 @@ module.exports.changeMulti = async (req, res) => {
         case 'change-position':
           for (const item of idsChange) {
             const [id, position] = item.split('-')
-            await Product.updateOne({ _id: id }, { position: position,
+            await Product.updateOne({ _id: id }, {
+              position: position,
               $push: { updatedBy: updatedBy }
             })
           }
@@ -180,10 +186,11 @@ module.exports.deleteItem = async (req, res) => {
     if (permissions.includes('products__delete')) {
       const id = req.params.id
       console.log(res.locals.user.id);
-    
+
       await Product.updateOne(
         { _id: id },
-        { deleted: true, 
+        {
+          deleted: true,
           deletedBy: {
             account_id: res.locals.user.id,
             deletedAt: new Date()
@@ -191,9 +198,9 @@ module.exports.deleteItem = async (req, res) => {
         }
       )
 
-    
+
       req.flash('changeSuccess', 'Sản phẩm đã được xoá thành công!')
-    
+
       res.redirect('back')
     }
     else {
@@ -201,7 +208,7 @@ module.exports.deleteItem = async (req, res) => {
     }
 
   }
-  catch(err) {
+  catch (err) {
     req.flash('changeError', 'Sản phẩm xoá KHÔNG thành công!')
   }
 }
@@ -210,10 +217,17 @@ module.exports.deleteItem = async (req, res) => {
 module.exports.create = async (req, res) => {
   const permissions = res.locals.role.permissions
 
+  const find = {
+    deleted: false
+  }
+
+  const records = await ProductCategory.find(find)
+
   // if (permissions.includes('products__create')) {
-    res.render(`${systemConfig.prefixAdmin}/pages/product/create.pug`, {
-      titlePage: 'Create product',
-    })
+  res.render(`${systemConfig.prefixAdmin}/pages/product/create.pug`, {
+    titlePage: 'Create product',
+    records
+  })
 
   // }
 }
@@ -239,14 +253,14 @@ module.exports.createPost = async (req, res) => {
       }
 
       const product = await Product.create(req.body)
-    
+
       res.redirect(`/${systemConfig.prefixAdmin}/product`)
     }
     else {
       return
     }
   }
-  catch(err) {
+  catch (err) {
     console.log(err);
   }
 }
@@ -259,12 +273,20 @@ module.exports.edit = async (req, res) => {
     // const permissions = res.locals.role.permissions
 
     // if (permissions.includes('products__edit')) {
-      const product = await Product.findById({ _id: req.params.id })
-  
-      res.render(`${systemConfig.prefixAdmin}/pages/product/edit.pug`, {
-        titlePage: 'Edit product',
-        product
-      })
+    const product = await Product.findById({ _id: req.params.id })
+
+
+    const find = {
+      deleted: false
+    }
+
+    const records = await ProductCategory.find(find)
+
+    res.render(`${systemConfig.prefixAdmin}/pages/product/edit.pug`, {
+      titlePage: 'Edit product',
+      product,
+      records
+    })
     // }
     // else {
     //   return
@@ -283,39 +305,39 @@ module.exports.editPatch = async (req, res) => {
 
     // if (permissions.includes('products__edit')) {
 
-      req.body.price = parseInt(req.body.price)
-      req.body.discountPercentage = parseFloat(req.body.discountPercentage)
-      req.body.stock = parseInt(req.body.stock)
-    
-      const updatedBy = {
-        account_id: res.locals.user.id,
-        updatedAt: new Date()
-      }
+    req.body.price = parseInt(req.body.price)
+    req.body.discountPercentage = parseFloat(req.body.discountPercentage)
+    req.body.stock = parseInt(req.body.stock)
 
-      if (req.body.position !== '') {
-        req.body.position = parseInt(req.body.position)
+    const updatedBy = {
+      account_id: res.locals.user.id,
+      updatedAt: new Date()
+    }
+
+    if (req.body.position !== '') {
+      req.body.position = parseInt(req.body.position)
+    }
+    else {
+      req.body.position = await Product.count() + 1
+    }
+
+    await Product.findOneAndUpdate(
+      { _id: req.params.id },
+      {
+        ...req.body,
+        $push: { updatedBy: updatedBy }
       }
-      else {
-        req.body.position = await Product.count() + 1
-      }
-    
-      await Product.findOneAndUpdate(
-        { _id: req.params.id }, 
-        {
-          ...req.body,
-          $push: { updatedBy: updatedBy }
-        }
-      )
-    
-      req.flash('changeSuccess', 'Đã cập nhật thông tin sản phẩm thành công!')
-    
-      res.redirect(`/${systemConfig.prefixAdmin}/product`)
+    )
+
+    req.flash('changeSuccess', 'Đã cập nhật thông tin sản phẩm thành công!')
+
+    res.redirect(`/${systemConfig.prefixAdmin}/product`)
     // }
     // else {
     //   return
     // }
   }
-  catch(err) {
+  catch (err) {
 
   }
 }
