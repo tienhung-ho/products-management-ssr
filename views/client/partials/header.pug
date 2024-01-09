@@ -1,3 +1,5 @@
+include ../mixins/multilevel-menu.pug
+
 header.header
   .container-fluid
     .row.align-items-center
@@ -11,30 +13,7 @@ header.header
           ul
             li
               a(href="/") Trang chủ
-            li
-              .btn-group
-                button.btn.btn-danger(type='button') Action
-                button.btn.btn-danger.dropdown-toggle.dropdown-toggle-split(type='button', data-bs-toggle='dropdown', aria-expanded='false')
-                  span.visually-hidden Toggle Dropdown
-                ul.dropdown-menu
-                  li
-                    a.dropdown-item(href='#') Action
-                  li
-                    a.dropdown-item(href='#') Another action
-                  li.dropdown
-                    a.dropdown-item.dropdown-toggle(href='#', role='button', data-bs-toggle='dropdown', aria-expanded='false') Submenu
-                    ul.dropdown-menu
-                      li
-                        a.dropdown-item(href='#') Action
-                      li
-                        a.dropdown-item(href='#') Another action
-                      li
-                        a.dropdown-item(href='#') Something else here
-                      li
-                        hr.dropdown-divider
-                      li
-                        a.dropdown-item(href='#') Separated link
-                  li
-                    hr.dropdown-divider
-                  li
-                    a.dropdown-item(href='#') Separated link
+            li.sub-menu
+              a(href="/product") Sản phẩm
+                if (layoutProductsCategories)
+                  +multilevel-menu(layoutProductsCategories, '/product')

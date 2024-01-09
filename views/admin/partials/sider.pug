@@ -9,21 +9,26 @@ body#body-pd
           a.nav_link.active(href=`/${prefixAdmin}/dashboard`)
             i.bx.bx-grid-alt.nav_icon
             span.nav_name Dashboard
-          a.nav_link(href=`/${prefixAdmin}/product`)
-            i.bx.bx-folder.nav_icon
-            span.nav_name Sản phẩm
-          a.nav_link(href=`/${prefixAdmin}/product-category`)
-            i.bx.bx-bar-chart-alt.nav_icon
-            span.nav_name Danh mục
-          a.nav_link(href=`/${prefixAdmin}/accounts`)
-            i.bx.bx-user.nav_icon
-            span.nav_name Tài khoản
-          a.nav_link(href=`/${prefixAdmin}/roles/`)
-            i.bx.bx-message-square-detail.nav_icon
-            span.nav_name Nhóm quyền
-          a.nav_link(href=`/${prefixAdmin}/roles/permissions`)
-            i.bx.bx-shield-minus.nav_icon
-            span.nav_name Phân quyền
+          if role.permissions.includes('products__view')
+            a.nav_link(href=`/${prefixAdmin}/product`)
+              i.bx.bx-folder.nav_icon
+              span.nav_name Sản phẩm
+          if role.permissions.includes('products-ct__view')
+            a.nav_link(href=`/${prefixAdmin}/product-category`)
+              i.bx.bx-bar-chart-alt.nav_icon
+              span.nav_name Danh mục
+          if role.permissions.includes('roles__view')
+            a.nav_link(href=`/${prefixAdmin}/roles/`)
+              i.bx.bx-message-square-detail.nav_icon
+              span.nav_name Nhóm quyền
+          if role.permissions.includes('roles__permissions')
+            a.nav_link(href=`/${prefixAdmin}/roles/permissions`)
+              i.bx.bx-shield-minus.nav_icon
+              span.nav_name Phân quyền
+          if role.permissions.includes('accounts__view')
+            a.nav_link(href=`/${prefixAdmin}/accounts`)
+              i.bx.bx-user.nav_icon
+              span.nav_name Tài khoản
         a.nav_link(href="#")
           i.bx.bx-log-out.nav_icon
           span.nav_name SignOut
