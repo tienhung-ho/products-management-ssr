@@ -1,4 +1,13 @@
-extend ../../layouts/default.pug 
+extends ../../layouts/default.pug 
+include ../../mixins/box-head.pug
+include ../../mixins/products-layout.pug
 
 block main 
-    h1 Trang chu
+    h1 Trang chủ
+
+    .container-fluid.my-3
+      .row
+        .col-12
+          +box-head("Sản phẩm nổi bật")
+
+      +product-grid(products)
