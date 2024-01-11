@@ -22,6 +22,31 @@
   .header .inner-menu > ul > li {
     margin-left: 20px;
   }
+
+/* Cart */
+
+.cart-icon {
+  position: relative;
+}
+
+.total-quantity {
+  text-align: center;
+  vertical-align: middle;
+  position: absolute;
+  font-size: 0.7rem;
+  background-color: red;
+  width: 50%;
+  height: 70%;
+  color: white;
+  right: 0;
+  top: 0;
+  border-radius: 100%;
+}
+
+
+
+/* END Cart  */
+
   /* End Header */
   
   /* Footer */
@@ -164,3 +189,45 @@
   width: 100%;
 }
 /* END Description */
+
+
+/* Show alert */
+
+[show-alert] {
+  position: fixed;
+  top: 10px;
+  right: 15px;
+  z-index: 999;
+}
+
+[close-alert] {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #efefef;
+  text-align: center;
+  line-height: 21px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+[show-alert].alert-hidden {
+  animation: alert-out 2s;
+  animation-fill-mode: both;
+}
+
+@keyframes alert-out {
+  from {
+    right: 15px;
+  }
+
+  to {
+    right: -100%;
+    display: none;
+  }
+}
+
+/* End show alert */
+
+

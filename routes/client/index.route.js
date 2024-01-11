@@ -1,23 +1,28 @@
 const productRouter = require('./product.route.js')
 const homeRouter = require('./home.route.js')
 const searchRouter = require('./search.route.js')
+const cartRouter = require('./cart.route.js')
 
 
 // middleware
-
+const cartsMiddlewares = require('../../middlewares/client/carts.middlewares.js')
 const categoriesMiddlewares = require('../../middlewares/client/categories.middlewares.js')
 
 module.exports = (app) => {
-    app.use('/search', 
-      categoriesMiddlewares.category,
-    searchRouter)
+    
+  app.use(categoriesMiddlewares.category)
 
-    app.use('/product', 
-      categoriesMiddlewares.category,
-      productRouter)
+  app.use(cartsMiddlewares.cartId)
 
-    app.use('/', 
-      categoriesMiddlewares.category,
-      homeRouter)
+  app.use('/cart', cartRouter)
+
+  app.use('/search', 
+  searchRouter)
+
+  app.use('/product', 
+    productRouter)
+
+  app.use('/', 
+    homeRouter)
 }
 
