@@ -4,7 +4,9 @@ const router = express.Router()
 const cartController = require('../../controllers/client/cart.controller.js')
 
 router.post('/add/:id', 
-  cartController.index
+  cartController.add
 )
+
+router.get('/', cartController.index)
 
 module.exports = router
