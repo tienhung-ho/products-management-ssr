@@ -7,8 +7,25 @@ header.header
         .inner-logo
           a(href="/")
             img(src="/images/logo.jfif", alt="Logo")
+      .col-5
+        form(
+          action="/search"
+          method="GET"
+        ) 
+          div(class="form-group d-flex mb-0")
+            input(
+              type="text"
+              placeholder="Nhập từ khóa..."
+              class="form-control"
+              name="keyword"
+              value=keyword
+            )
+            button(
+              type="submit"
+              class="btn btn-primary"
+            ) Tìm kiếm
 
-      .col-7
+      .col-4 
         .inner-menu
           ul
             li

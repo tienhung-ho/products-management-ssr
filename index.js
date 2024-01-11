@@ -42,6 +42,7 @@ app.use(express.static(`${ __dirname }/public`))
 
 // local variables within the application
 app.locals.prefixAdmin = systemConfig.prefixAdmin
+app.locals.prefixClient= systemConfig.prefixClient
 app.locals.moment = moment
 
 // Routes client

@@ -1,0 +1,12 @@
+extends ../../layouts/default.pug 
+include ../../mixins/box-head.pug
+include ../../mixins/products-layout.pug
+
+block main 
+    .container-fluid.my-3
+      .row
+        .col-12
+          +box-head(titlePage)
+
+      +product-grid(products)
+
