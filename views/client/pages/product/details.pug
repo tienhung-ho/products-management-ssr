@@ -2,7 +2,7 @@ extend ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main 
-  .product-detail
+  .product-detail(style=("width: 100%"))
     .container.my-5
       button(
         class='btn btn-secondary mb-3'
@@ -58,5 +58,5 @@ block main
 
       .row
         .col-12
-          +box-head("Product description")
-          .inner-desc !{product.description}
+          +box-head("Mô tả")
+          .inner-desc(style=("width: 100%")) !{product.description}

@@ -7,3 +7,9 @@ module.exports.newPriceProducts = (products) => {
   })
   return newProductsFeatured
 }
+
+
+module.exports.newPriceProduct = (product) => {
+  const newPriceProduct = (product.price * (100 - product.discountPercentage) / 100).toFixed()
+  return newPriceProduct
+}

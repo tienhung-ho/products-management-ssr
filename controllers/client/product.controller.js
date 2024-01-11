@@ -1,6 +1,9 @@
 const Product = require('../../models/product.model.js')
 const ProductCategory = require('../../models/product.category.model.js')
 
+// helper
+const productHelpers = require('../../helpers/products.js')
+
 // [GET] /product
 module.exports.index = async (req, res) => {
 
@@ -34,11 +37,21 @@ module.exports.details = async (req, res) => {
     }
     const product = await Product.findOne(filter)
 
-    await Product.findOneAndUpdate(slug, {
+    await Product.findOneAndUpdate(filter, {
       $inc: { views: 1 }
     })
 
-    product.newPrice = (product.price * (100 - product.discountPercentage) / 100).toFixed()
+    if (product.product_category_id) {
+      const category = await ProductCategory.findOne({
+        _id: product.product_category_id,
+        deleted: false,
+        status: 'active'
+      })
+
+      product.category = category
+    }
+
+    product.newPrice = productHelpers.newPriceProduct(product)
 
 
     res.render('client/pages/product/details.pug', {
@@ -47,6 +60,7 @@ module.exports.details = async (req, res) => {
     })
 
   } catch (error) {
+    console.log(error);
     res.redirect('/product')
   }
 }
