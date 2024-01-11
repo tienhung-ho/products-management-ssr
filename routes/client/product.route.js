@@ -5,6 +5,8 @@ const productController = require('../../controllers/client/product.controller.j
 
 router.get('/details/:slug', productController.details)
 
+router.get('/:slugCategory', productController.category)
+
 router.get('/add', productController.add)
 
 router.get('/', productController.index)

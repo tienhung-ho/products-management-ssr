@@ -12,9 +12,14 @@ module.exports.index = async (req, res) => {
       status: 'active'
     }).limit(6)
 
-    const newProductsFeatured = productHelper.newPriceProducts(productsFeatured)
+    const newProductsFeatured = await Product.find({
+      deleted: false,
+      status: 'active'
+    }).sort({ position: 'desc' }).limit(6)
+
     res.render('client/pages/home/index.pug', {
         titlePage: 'Trang chu',
-        products: productsFeatured
+        products: productsFeatured,
+        newProductsFeatured
     })
 }

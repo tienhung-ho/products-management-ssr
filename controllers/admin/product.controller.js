@@ -251,8 +251,7 @@ module.exports.createPost = async (req, res) => {
       else {
         req.body.position = await Product.count() + 1
       }
-
-      const product = await Product.create(req.body)
+      await Product.create(req.body)
 
       res.redirect(`/${systemConfig.prefixAdmin}/product`)
     }
@@ -281,6 +280,8 @@ module.exports.edit = async (req, res) => {
     }
 
     const records = await ProductCategory.find(find)
+
+    console.log(product);
 
     res.render(`${systemConfig.prefixAdmin}/pages/product/edit.pug`, {
       titlePage: 'Edit product',

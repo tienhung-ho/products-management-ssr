@@ -13,6 +13,8 @@ const productSchema = new Schema({
     status: String,
     featured: String,
     position: Number,
+    views: Number,
+    product_category_id: String,
     slug: {
         type: String,
         slug: "title",
