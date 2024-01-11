@@ -65,11 +65,33 @@ module.exports.category = async (req, res) => {
       status: 'active',
       slug: req.params.slugCategory
     })
+
+    const getSubCategories = async (parentId) => {
+      const subs = await ProductCategory.find({
+        deleted: false,
+        status: 'active',
+        parent_id: parentId
+      })
+
+      let allSub = [...subs];
+
+      for (let sub of subs) {
+        const childs = await getSubCategories(sub.id)
+        allSub = allSub.concat(childs)
+      }
+
+      return allSub
+    }
+
+    const listCategories = getSubCategories(category.id)
+
+    const idListCategories = (await listCategories).map(item => item.id)
+    console.log(idListCategories);
   
     const filter = {
       status: "active",
       deleted: false,
-      product_category_id: category.id
+      product_category_id: { $in:  [category.id, ...idListCategories]}
     }
   
     const products = await Product.find(filter
@@ -85,7 +107,7 @@ module.exports.category = async (req, res) => {
     })
   
     res.render('client/pages/product/index.pug', {
-      titlePage: 'Product',
+      titlePage: category.title,
       products: newProduct
     })
   }
