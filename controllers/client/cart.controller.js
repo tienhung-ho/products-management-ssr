@@ -128,3 +128,30 @@ module.exports.delete = async (req, res) => {
 
 }
 
+// [GET] /cart/update/:id/:value
+module.exports.updateQuantity = async (req, res) => {
+  try {
+    const id = req.params.id
+    const quantity = req.params.quantity
+
+    const cartId = req.cookies.cartId
+
+    await CartModel.updateOne(
+      { _id: cartId, 'products.product_id': id },
+      {
+        $set: {
+          'products.$.quantity': quantity
+        }
+      }
+    )
+    req.flash('changeSuccess', "Thay đổi số lượng thành công!")
+    res.redirect('back')
+  }
+  catch(err) {
+    console.log(err);
+    req.flash("changeError", "Lost conect to sever")
+  }
+  
+  
+
+}
