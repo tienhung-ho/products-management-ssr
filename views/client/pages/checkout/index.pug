@@ -38,15 +38,16 @@ block main
                                 class="form-control form-control-sm"
                                 product-id = item.product.id
                                 max=item.product.stock
+                                disabled
                               )
                               
                               //- button.btn.btn-link.px-2(onclick="this.parentNode.querySelector('input[type=number]').stepUp()") 
                               //-   i.fas.fa-plus(style=("color: black"))
                             .col-md-3.col-lg-2.col-xl-2.offset-lg-1
                               h6.mb-0 $#{item.product.totalPrice}
-                            .col-md-1.col-lg-1.col-xl-1.text-end
-                              a(href=`/cart/delete/${item.id}`, class="text-muted") 
-                                i.fas.fa-times(style=("color: black"))
+                            //- .col-md-1.col-lg-1.col-xl-1.text-end
+                            //-   a(href=`/cart/delete/${item.id}`, class="text-muted") 
+                            //-     i.fas.fa-times(style=("color: black"))
 
                       hr.my-4
 
@@ -84,5 +85,23 @@ block main
                         h5.text-uppercase Total price
                         h5 $ #{cart.totalPrice}
 
-                      a.btn.btn-dark.btn-block.btn-lg(data-mdb-ripple-color="dark", href=`/checkout`) Mua hàng
+
+        if cart.products.length > 0
+          .row
+            .col-12
+              .card.p-4.my-4
+                form(action="/checkout/order", method="POST")
+                  .mb-3
+                    label(for="fullName", class="form-label") Họ tên
+                    input(type="text", class="form-control", id="fullName", name="fullName", required)
+                  .mb-3
+                    label(for="phone", class="form-label") Số điện thoại
+                    input(type="text", class="form-control", id="phone", name="phone", required)
+                  .mb-3
+                    label(for="address", class="form-label") Địa chỉ
+                    input(type="text", class="form-control", id="address", name="address", required)
+                  .mb-3
+                    button(type="submit", class="btn btn-success btn-block") Mua hàng
+
+
   script(src='/js/cart.js')

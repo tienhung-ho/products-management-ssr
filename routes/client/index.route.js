@@ -2,6 +2,7 @@ const productRouter = require('./product.route.js')
 const homeRouter = require('./home.route.js')
 const searchRouter = require('./search.route.js')
 const cartRouter = require('./cart.route.js')
+const checkoutRoute = require('./checkout.route.js')
 
 
 // middleware
@@ -22,7 +23,12 @@ module.exports = (app) => {
   app.use('/product', 
     productRouter)
 
+  app.use('/checkout', 
+    checkoutRoute
+  )
+    
   app.use('/', 
     homeRouter)
+
 }
 
