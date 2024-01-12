@@ -6,6 +6,7 @@ const ProductCategory = require('../../models/product.category.model.js')
 // helper
 
 const productHelper = require('../../helpers/products.js')
+const formatPriceHelper = require('../../helpers/format-price.js')
 
 
 // [GET] /cart/
@@ -30,10 +31,10 @@ module.exports.index = async (req, res) => {
       }
       item.product = product
       item.product.newPrice = productHelper.newPriceProduct(product)
-      item.product.totalPrice = item.product.newPrice * item.quantity
+      item.product.totalPrice = formatPriceHelper.formatNumberWithCommas(item.product.newPrice * item.quantity)
     }
 
-    cart.totalPrice = cart.products.reduce((sum, item) => sum + item.quantity * item.product.newPrice, 0)
+    cart.totalPrice = formatPriceHelper.formatNumberWithCommas(cart.products.reduce((sum, item) => sum + item.quantity * item.product.newPrice, 0))
   }
 
 
@@ -42,8 +43,6 @@ module.exports.index = async (req, res) => {
     cart
   })
 }
-
-
 
 // [POST] /cart/add/:cartID
 module.exports.add = async (req, res) => {
@@ -103,3 +102,29 @@ module.exports.add = async (req, res) => {
   }
 
 }
+
+// [GET] /cart/delete/:id
+module.exports.delete = async (req, res) => {
+  try {
+    const id = req.params.id
+    const cartId = req.cookies.cartId
+    
+    await CartModel.updateOne({ _id: cartId }, {
+      $pull: {
+        products: {
+          _id: id
+        }
+      }
+    })
+
+    req.flash("changeSuccess", "Xóa sản phẩm khỏi giỏ hành thành công!")
+    res.redirect('back')
+
+  }
+  catch (err) {
+    console.log(err);
+    req.flash("changeError", "Lost conect to sever")
+  }
+
+}
+

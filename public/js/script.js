@@ -27,3 +27,22 @@ if (showAlert) {
   })
 }
 // End show alert
+
+
+// Back button
+
+const backButton = document.querySelectorAll('[button-go-back]')
+
+if (backButton.length > 0) {
+  backButton.forEach(button => {
+
+    button.addEventListener('click' , () => {
+      history.back()
+    })
+
+  })
+
+}
+
+
+// END back button
