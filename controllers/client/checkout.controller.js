@@ -2,6 +2,7 @@ const CartModel = require('../../models/cart.model')
 const Product = require('../../models/product.model.js')
 const systemConfig = require('../../config/system/index')
 const ProductCategory = require('../../models/product.category.model.js')
+const OrderModel = require('../../models/order.model.js')
 
 // helper
 
@@ -9,8 +10,6 @@ const productHelper = require('../../helpers/products.js')
 const formatPriceHelper = require('../../helpers/format-price.js')
 
 // [GET] /checkout/
-
-
 module.exports.index = async (req, res) => {
   const cartId = res.locals.miniCart
 
@@ -43,5 +42,52 @@ module.exports.index = async (req, res) => {
     titlePage: 'Giỏ hàng',
     cart
   })
+}
+
+module.exports.order = async (req, res) => {
+  const cartId = req.cookies.cartId
+  const userInfo = req.body
+  
+  const cart = await CartModel.findOne({
+    _id: cartId
+  })
+
+  const products = []
+
+  for (let item of cart.products) {
+    const objProduct = {
+      product_id: item.product_id,
+      quantity: item.quantity,
+      price: 0,
+      discountPercentage: 0
+
+    }
+
+    const product = await Product.findOne({
+      _id: item.product_id
+    })
+
+    objProduct.price = product.price
+    objProduct.discountPercentage = product.discountPercentage
+  }
+
+  const objOrder = {
+    // user_id: String
+    cart_id: cartId,
+    userInfo: userInfo,
+    products: products
+  }
+
+  console.log(objOrder);
+
+  const order = await OrderModel.create(objOrder)
+
+  await CartModel.findOne({
+    _id: cartId
+  }, {
+    products: []
+  }
+  )
+  res.redirect(`/checkout/success/${order.id}`)
 }
 
