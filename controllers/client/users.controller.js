@@ -1,10 +1,14 @@
 const systemConfig = require('../../config/system/index')
 const usersModel = require('../../models/users.model')
+const forgotPassword = require('../../models/forgot-password.model')
+
 const saltRounds = Number(process.env.SALTROUNDS)
 
 // hash
 const bcrypt = require('bcrypt');
 
+// helper
+const genarate = require('../../helpers/genarate')
 
 // [GET] /user/register
 module.exports.register = async (req, res) => {
@@ -88,9 +92,85 @@ module.exports.loginPost = async (req, res) => {
 
 }
 
-// [GET] /user/login
+// [GET] /user/logout
 module.exports.logout = async (req, res) => {
   res.clearCookie('tokenUser')
 
   res.redirect('/')
+}
+
+// [GET] /user/password/forgotPassWord
+module.exports.forgotPassWord = async (req, res) => {
+
+  res.render(`${systemConfig.prefixClient}/pages/user/forgot-password.pug`, {
+    titlePage: 'Quên mật khẩu',
+  })
+
+}
+
+// [POST] /user/password/forgotPassWord
+module.exports.forgotPassWordPost = async (req, res) => {
+  const email = req.body.email
+  
+  const user = await usersModel.findOne({
+    email: email,
+    deleted: false
+  })
+
+  if (!user) {
+    req.flash('changeError', "Email không tồn tại")
+    res.redirect('back')
+    return
+  }
+
+  const objectFPW = {
+    email: email,
+    otp: genarate.genarateRanNumber(6),
+    expireAt: Date.now()
+  }
+
+  const forgotPass = new forgotPassword(objectFPW)
+  forgotPass.save()
+
+
+  res.redirect(`/user/password/otp?email=${email}`)
+
+}
+
+// [GET] /user/password/otp?email
+module.exports.otpPassword = async (req, res) => {
+  const email = req.query.email
+  
+
+
+  res.render(`${systemConfig.prefixClient}/pages/user/otp-password.pug`, {
+    titlePage: 'OTP',
+    email
+  })
+}
+
+
+// [POST] /user/password/otp?email
+module.exports.otpPasswordPost = async (req, res) => {
+  const email = req.body.email
+  const otp = req.body.otp
+  
+  const result = await forgotPassword.findOne({
+    email: email,
+    otp: otp
+  })
+
+  if (!result) {
+    req.flash('changeErorr', "Lỗi, OTP không hợp lệ")
+    res.redirect('back')
+    return
+  }
+
+  const user = await usersModel.findOne({
+    email: email
+  })
+
+  res.cookie('tokenUser', user.tokenUser)
+
+  res.redirect('/user/password/reset')
 }
