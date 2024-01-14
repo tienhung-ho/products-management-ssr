@@ -4,7 +4,7 @@ const saltRounds = Number(process.env.SALTROUNDS)
 
 // hash
 const bcrypt = require('bcrypt');
-const { use } = require('../../routes/client/users.route');
+
 
 // [GET] /user/register
 module.exports.register = async (req, res) => {
@@ -77,11 +77,20 @@ module.exports.loginPost = async (req, res) => {
 
 
   if (isMatch) {
-    res.cookie("tokenUser", user.tokenUser)
+    let maxAge = 60 * 60 * 1000  
+
+    res.cookie("tokenUser", user.tokenUser, { maxAge:  maxAge})
 
     req.flash('changeSuccess', "Đăng nhập khoảng thành công!")
 
     res.redirect(`/product`)
   }
 
+}
+
+// [GET] /user/login
+module.exports.logout = async (req, res) => {
+  res.clearCookie('tokenUser')
+
+  res.redirect('/')
 }

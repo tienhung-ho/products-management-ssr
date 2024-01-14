@@ -43,7 +43,7 @@ module.exports.loginPost = async (req, res) => {
       
         req.flash('changeSuccess', 'Đăng nhập thành công')
 
-        res.cookie("token", user.token ,{ maxAge:  maxAge})
+        res.cookie("token", user.token , { maxAge:  maxAge})
         res.redirect(`/${systemConfig.prefixAdmin}/dashboard`)
 
 
