@@ -121,7 +121,6 @@ module.exports.success = async (req, res) => {
 
   order.totalPrice = formatPriceHelper.formatNumberWithCommas(totalPrice) 
 
-  console.log(order);
   res.render(`${systemConfig.prefixClient}/pages/checkout/success.pug`, {
     titlePage: 'Đặt hàng thành công',
     order

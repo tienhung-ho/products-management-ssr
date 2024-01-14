@@ -185,7 +185,6 @@ module.exports.deleteItem = async (req, res) => {
 
     if (permissions.includes('products__delete')) {
       const id = req.params.id
-      console.log(res.locals.user.id);
 
       await Product.updateOne(
         { _id: id },
