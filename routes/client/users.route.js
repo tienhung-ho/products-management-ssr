@@ -9,10 +9,16 @@ const usersController = require('../../controllers/client/users.controller.js')
 router.get('/register',
   usersController.register
 )
-
 router.post('/register',
   userValidate.register,
   usersController.registerPost
+)
+
+router.get('/login',
+  usersController.login
+)
+router.post('/login',
+  usersController.loginPost
 )
 
 module.exports = router
