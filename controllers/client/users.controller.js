@@ -31,8 +31,6 @@ module.exports.registerPost = async (req, res) => {
   const plainTextPassword = req.body.password;
   req.body.password = await bcrypt.hash(plainTextPassword, saltRounds);
 
-  console.log(req.body.password);
-
   req.flash('changeSuccess', "Tạo tài khoảng thành công!")
   const user = new usersModel(req.body)
   await user.save()
@@ -70,6 +68,7 @@ module.exports.loginPost = async (req, res) => {
 
   if (user.status == 'inactive') {
     req.flash('changeError', "Tài khoản đã bị khóa!")
+    return
   }
 
 
@@ -80,7 +79,7 @@ module.exports.loginPost = async (req, res) => {
   if (isMatch) {
     res.cookie("tokenUser", user.tokenUser)
 
-    req.flash('changeSuccess', "Tạo tài khoảng thành công!")
+    req.flash('changeSuccess', "Đăng nhập khoảng thành công!")
 
     res.redirect(`/product`)
   }

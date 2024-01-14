@@ -9,12 +9,15 @@ const usersRoute = require('./users.route.js')
 // middleware
 const cartsMiddlewares = require('../../middlewares/client/carts.middlewares.js')
 const categoriesMiddlewares = require('../../middlewares/client/categories.middlewares.js')
+const userMiddlewares = require('../../middlewares/client/user.middelwares.js')
 
 module.exports = (app) => {
     
   app.use(categoriesMiddlewares.category)
 
   app.use(cartsMiddlewares.cartId)
+
+  app.use(userMiddlewares.inforUser)
 
   app.use('/user', usersRoute)
 

@@ -1,8 +1,12 @@
 extends ../../layouts/default.pug 
 include ../../mixins/box-head.pug
 include ../../mixins/products-layout.pug
+include ../../mixins/alert.pug
+
 
 block main 
+    +alert-success(3000)
+    +alert-error(3000)
     .container-fluid.my-3
       .row
         .col-12
