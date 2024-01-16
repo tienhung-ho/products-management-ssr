@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
+// middlewares
+const authMiddelwares = require('../../middlewares/client/authorize.js')
+
 // validates
 const userValidate = require('../../validates/client/user.validate.js')
 
@@ -31,5 +34,7 @@ router.post('/password/otp', usersController.otpPasswordPost)
 
 router.get('/password/reset', usersController.resetPassword)
 router.post('/password/reset', userValidate.resetPassword , usersController.resetPasswordPost)
+
+router.get('/infor', authMiddelwares.requireAuthorize, usersController.infor)
 
 module.exports = router

@@ -211,3 +211,12 @@ module.exports.resetPasswordPost = async (req, res) => {
   req.flash('changeSuccess', "Đổi mật khẩu thành công!")
   res.redirect('/')
 }
+
+
+// [GET] /user/infor
+module.exports.infor = async (req, res) => {
+
+  res.render(`${systemConfig.prefixClient}/pages/user/infor.pug`, {
+    titlePage: 'Đăng ký',
+  })
+}
