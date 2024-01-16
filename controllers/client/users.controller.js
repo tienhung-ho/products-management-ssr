@@ -1,6 +1,7 @@
 const systemConfig = require('../../config/system/index')
 const usersModel = require('../../models/users.model')
 const forgotPassword = require('../../models/forgot-password.model')
+const cartModel = require('../../models/cart.model')
 
 const saltRounds = Number(process.env.SALTROUNDS)
 
@@ -84,11 +85,22 @@ module.exports.loginPost = async (req, res) => {
   if (isMatch) {
     let maxAge = 60 * 60 * 1000  
 
+    await cartModel.updateOne({
+      _id: req.cookies.cartId  
+    }, {
+      user_id: user.id
+    })
+
+
     res.cookie("tokenUser", user.tokenUser, { maxAge:  maxAge})
 
     req.flash('changeSuccess', "Đăng nhập khoảng thành công!")
 
     res.redirect(`/product`)
+  }
+  else {
+    req.flash('changeError', "Đăng nhập thất bại!")
+    res.redirect('back')
   }
 
 }
