@@ -50,6 +50,12 @@ app.locals.moment = moment
 routeClient(app)
 routeAdmin(app)
 
+app.get('*', (req, res) => {
+  res.render('client/pages/error/404-notfound.pug', {
+    pageTitle: '404'
+  })
+})
+
 app.listen(port, () => {
     console.log(`App listening on port ${port}`)
 })

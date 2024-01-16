@@ -1,0 +1,60 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+
+block main 
+  +alert-success(3000)
+  +alert-error(3000)
+  .container
+    .col-md-6.col-lg-7.offset-md-3.mb-5.bt-5
+      .panel.panel-default.chat-widget
+        .panel-heading
+          h3.panel-title
+            i.fa.fa-comments
+            |  Chat
+        .panel-body
+          .message
+            .avatar
+              img.img-circle.avatar(alt="chat avatar", src="https://bootdey.com/img/Content/avatar/avatar1.png")
+            .message-text-wrapper
+              .message-text
+                | Basic panel example awesome one bewsom Basic panel example awesome
+            p.time-stamp
+              i.fa.fa-check
+              | 5 minute ago
+          .message.message-right
+            .avatar
+              img.img-circle.avatar(alt="chat avatar", src="https://bootdey.com/img/Content/avatar/avatar2.png")
+            .message-text-wrapper
+              .message-text
+                | Basic panel example awesome one bewsom Basic panel example awesome
+            p.time-stamp
+              i.fa.fa-check
+              | 2 minute ago
+          .message
+            .avatar
+              img.img-circle.avatar(alt="chat avatar", src="https://bootdey.com/img/Content/avatar/avatar1.png")
+            .message-text-wrapper
+              .message-text
+                a(href="#" title="Singapore cityscape", data-gallery="")
+                  img(src="https://www.bootdey.com/image/200x320/", alt="singapore pic")
+            p.time-stamp
+              i.fa.fa-check
+              | 1 minute ago
+          .message.message-right
+            .avatar
+              img.img-circle.avatar(alt="chat avatar", src="https://bootdey.com/img/Content/avatar/avatar2.png")
+            .message-text-wrapper
+              .message-text
+                | Basic panel example awesome one bewsom Basic panel example awesome
+            p.time-stamp
+              i.fa.fa-check
+              | Now
+        .panel-footer
+          .avatar
+            img.img-circle.avatar(alt="chat avatar", src="https://bootdey.com/img/Content/avatar/avatar1.png")
+          .input-group
+            input(type="text", placeholder="Press Enter", class="form-control primary")
+            span.input-group-btn
+              button.btn.btn-primary(type="button")
+                | Send
