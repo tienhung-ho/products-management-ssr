@@ -1,0 +1,84 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main
+  h1 General Setting
+
+  +alert-error(3000)
+  +alert-success(3000)
+
+  form(
+    action=`/${prefixAdmin}/settings/general?_method=PATCH`
+    method='POST'
+    enctype="multipart/form-data"
+  )
+    .form-group
+      label(for='websiteName') Website name
+      input(
+        type='text'
+        class='form-control'
+        id='websiteName'
+        name='websiteName'
+        value=(settingGeneral ? settingGeneral.websiteName : "")
+      )
+    div(
+        class="mb-3"
+        upload-image
+        )
+        label(
+            for="logo"
+            class="form-label"
+        ) Ảnh
+        input(
+            type="file"
+            id="logo"
+            name="logo"
+            class="form-control"
+            accept="image/*"
+            input-image
+        )
+        img(
+            src=(settingGeneral ? settingGeneral.logo : "")
+            preview-image
+        )
+    .form-group
+      label(for='phone') Phone
+      input(
+        type='text'
+        class='form-control'
+        id='phone'
+        name='phone'
+        value=(settingGeneral ? settingGeneral.phone : "")
+      )
+    .form-group
+      label(for='email') Email
+      input(
+        type='email'
+        class='form-control'
+        id='email'
+        name='email'
+        value=(settingGeneral ? settingGeneral.email : "")
+      )
+    .form-group
+      label(for='address') Address
+      input(
+        type='text'
+        class='form-control'
+        id='address'
+        name='address'
+        value=(settingGeneral ? settingGeneral.address : "")
+      )
+    .form-group
+      label(for='copyright') Copyright
+      input(
+        type='text'
+        class='form-control'
+        id='copyright'
+        name='copyright'
+        value=(settingGeneral ? settingGeneral.copyright : "")
+      )
+    .form-group
+      button(
+        type='submit'
+        class='btn btn-primary'
+      ) Update

@@ -10,6 +10,7 @@ const usersRoute = require('./users.route.js')
 const cartsMiddlewares = require('../../middlewares/client/carts.middlewares.js')
 const categoriesMiddlewares = require('../../middlewares/client/categories.middlewares.js')
 const userMiddlewares = require('../../middlewares/client/user.middelwares.js')
+const settingMiddlewares = require('../../middlewares/client/setting.middlewares.js')
 
 module.exports = (app) => {
     
@@ -18,6 +19,8 @@ module.exports = (app) => {
   app.use(cartsMiddlewares.cartId)
 
   app.use(userMiddlewares.inforUser)
+
+  app.use(settingMiddlewares.settingGeneral)
 
   app.use('/user', usersRoute)
 
