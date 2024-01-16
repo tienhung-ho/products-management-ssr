@@ -9,6 +9,7 @@ const bcrypt = require('bcrypt');
 
 // helper
 const genarate = require('../../helpers/genarate')
+const sendMail = require('../../helpers/send-mail')
 
 // [GET] /user/register
 module.exports.register = async (req, res) => {
@@ -123,16 +124,25 @@ module.exports.forgotPassWordPost = async (req, res) => {
     return
   }
 
+  const otp = genarate.genarateRanNumber(6)
+
   const objectFPW = {
     email: email,
-    otp: genarate.genarateRanNumber(6),
+    otp: otp,
     expireAt: Date.now()
   }
 
   const forgotPass = new forgotPassword(objectFPW)
   forgotPass.save()
 
+  
+  
+  // SEND EMAIL
+  const sub = "Mã OTP CỦA BẠN!"
+  const html = `Mã OTP xác minh là <b>${otp}</b> sẽ hết hạn sau 3p`
 
+  sendMail.sendMail(email, sub, html)
+// END SEND EMAIL
   res.redirect(`/user/password/otp?email=${email}`)
 
 }
@@ -173,4 +183,31 @@ module.exports.otpPasswordPost = async (req, res) => {
   res.cookie('tokenUser', user.tokenUser)
 
   res.redirect('/user/password/reset')
+}
+
+// [GET] /user/password/reset
+module.exports.resetPassword = async (req, res) => {
+  res.render(`${systemConfig.prefixClient}/pages/user/reset-password.pug`, {
+    titlePage: 'Reset',
+  })
+}
+
+
+// [POST] /user/password/reset
+module.exports.resetPasswordPost = async (req, res) => {
+  let password = req.body.password
+  
+  const tokenUser = req.cookies.tokenUser
+
+  const plainTextPassword = req.body.password;
+  password = await bcrypt.hash(plainTextPassword, saltRounds);
+
+  await usersModel.updateOne({
+    tokenUser: tokenUser
+  }, {
+    password: password
+  })
+
+  req.flash('changeSuccess', "Đổi mật khẩu thành công!")
+  res.redirect('/')
 }

@@ -28,4 +28,8 @@ router.post('/password/forgot', usersController.forgotPassWordPost)
 
 router.get('/password/otp', usersController.otpPassword)
 router.post('/password/otp', usersController.otpPasswordPost)
+
+router.get('/password/reset', usersController.resetPassword)
+router.post('/password/reset', userValidate.resetPassword , usersController.resetPasswordPost)
+
 module.exports = router

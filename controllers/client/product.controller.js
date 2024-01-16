@@ -100,7 +100,6 @@ module.exports.category = async (req, res) => {
     const listCategories = getSubCategories(category.id)
 
     const idListCategories = (await listCategories).map(item => item.id)
-    console.log(idListCategories);
   
     const filter = {
       status: "active",

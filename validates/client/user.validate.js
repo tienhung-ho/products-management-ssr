@@ -15,3 +15,25 @@ module.exports.register = (req, res, next) => {
   }
   next()
 }
+
+module.exports.resetPassword = (req, res, next) => {
+    
+  if (!req.body.password) {
+      req.flash('changeError', 'Mật khẩu không được để trống!')
+      res.redirect('back')
+      return
+  }
+
+  if (!req.body.confirmPassword) {
+      req.flash('changeError', 'Nhập lại mật khẩu!')
+      res.redirect('back')
+      return
+  }
+
+  if (req.body.confirmPassword !== req.body.password) {
+    req.flash('changeError', 'Mật khẩu không khớp!')
+    return
+  }
+  next()
+ 
+}
