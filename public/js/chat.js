@@ -1,4 +1,5 @@
 
+import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
 
 // CLIENT_SEND_MESS
 
@@ -26,7 +27,7 @@ if (formSendData) {
 socket.on('SERVER_RETURN_MESSAGE', (data) => {
   const body = document.querySelector('.chat .inner-body')
   const myid = document.querySelector('[my-id]').getAttribute('my-id')
-  
+
   const div = document.createElement('div')
 
   let fullName = ""
@@ -55,9 +56,38 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
 
 const bodyChat = document.querySelector('.chat .inner-body')
 
-if(bodyChat) {
+if (bodyChat) {
   bodyChat.scrollTop = bodyChat.scrollHeight
 
 }
 
 // END SCROLL CHAT TO BOTTOM
+
+
+// EMOJI
+
+const button = document.querySelector('.button-icon')
+
+if(button) {
+  const tooltip = document.querySelector('.tooltip')
+  Popper.createPopper(button, tooltip)
+  
+  button.onclick = () => {
+    tooltip.classList.toggle('shown')
+  }
+}
+
+
+// insert icon
+const emojiPicker = document.querySelector('emoji-picker')
+if (emojiPicker) {
+  const input = document.querySelector(".chat .inner-form input[name='content']")
+
+  emojiPicker.addEventListener('emoji-click', event => {
+    const icon = event.detail.unicode;
+
+    input.value = input.value + icon
+    console.log(event.detail)
+  })
+}
+// END EMOJI
