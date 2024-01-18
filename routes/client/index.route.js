@@ -11,6 +11,7 @@ const cartsMiddlewares = require('../../middlewares/client/carts.middlewares.js'
 const categoriesMiddlewares = require('../../middlewares/client/categories.middlewares.js')
 const userMiddlewares = require('../../middlewares/client/user.middelwares.js')
 const settingMiddlewares = require('../../middlewares/client/setting.middlewares.js')
+const authMiddelwares = require('../../middlewares/client/authorize.js')
 
 
 module.exports = (app) => {
@@ -23,7 +24,7 @@ module.exports = (app) => {
 
   app.use(settingMiddlewares.settingGeneral)
 
-  app.use('/chat', chatModel)
+  app.use('/chat', authMiddelwares.requireAuthorize, chatModel)
 
   app.use('/user', usersRoute)
 

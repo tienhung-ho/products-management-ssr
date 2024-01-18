@@ -35,10 +35,12 @@ header.header
                 if (layoutProductsCategories)
                   +multilevel-menu(layoutProductsCategories, '/product')
             if user
-              .header_toggle
-                i.bx.bx-menu#header-toggle
+              li.col-4 
+                a(href="/chat") Chat
+              //- .header_toggle
+                //- i.bx.bx-menu#header-toggle
               div(
-                class='col-3 d-flex justify-content-end'
+                class='col-1 d-flex justify-content-end'
                 )
                   .col-9.text-end.d-flex.flex-row-reverse
                   .dropdown.mt-sm-auto.ms-auto.ms-sm-0.flex-shrink-1(style="color: black")
@@ -76,7 +78,7 @@ header.header
                                   line.cls-1(x1="28.92", x2="24.92", y1="16", y2="12")
                                   line.cls-1(x1="24.92", x2="24.92", y1="8.09", y2="6.09")
                                   line.cls-1(x1="24.92", x2="24.92", y1="26", y2="24")
-
+                    
             else
               li
                 a(href="/user/register") Đăng ký

@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const moment = require('moment')
 const path = require('path');
-
+const http = require('http')
 
 const routeClient = require('./routes/client/index.route.js')
 const routeAdmin = require('./routes/admin/index.route.js')
@@ -30,6 +30,13 @@ app.use(flash());
 app.use('/tinymce', 
     express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
+
+// socketIO
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+global._io = io
 
 // method override
 app.use(methodOverride('_method'))
@@ -56,6 +63,6 @@ app.get('*', (req, res) => {
   })
 })
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`App listening on port ${port}`)
 })
