@@ -1,1 +1,1 @@
-var socket = io();
+const socket = io();

@@ -7,11 +7,13 @@ const { use } = require('../../routes/client/product.route')
 module.exports.index = async (req, res) => {
   
   const userId = res.locals.user.id
+  const fullName = res.locals.user.fullName
 
 
   _io.once('connection', (socket) => {
 
     socket.on('CLIENT_SEND_MESSAGE', async (content) => {
+    
       const chat = new ChatModel({
         user_id: userId,
         content
@@ -19,9 +21,17 @@ module.exports.index = async (req, res) => {
 
       await chat.save()
 
-    })
 
+      _io.emit("SERVER_RETURN_MESSAGE", {
+        userId,
+        fullName,
+        content
+      })
+
+    })
+    
     console.log('a user connected', socket.id);
+
   })
 
   const chats = await ChatModel.find({
