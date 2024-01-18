@@ -3,31 +3,31 @@ include ../../mixins/box-head.pug
 
 block main
   .container.my-3
+
     .row 
       .col-12
         +box-head('Chat')
 
     .row
       .col-12
-        .chat 
+        .chat(my-id=user.id) 
           .inner-body 
-            .inner-incoming 
-              .inner-name Alex 
-              .inner-content 
-                | The meeting will be organise in Hall.
-            .inner-outgoing
-              .inner-content 
-                | I will be there soon
-            .inner-incoming 
-              .inner-name Alex 
-              .inner-content
-                | Be fast !
-            .inner-outgoing
-              .inner-content 
-                | I already come but why the door is locked 
-            .inner-incoming 
-              .inner-name Alex 
-              .inner-content Oh i forgot, the meeting scheledule changed :))
+            each chat in chats
+              div(class=(chat.userInfo.id == user.id ? 'inner-outgoing' : 'inner-incoming'))
+                if(chat.userInfo.id != user.id)
+                  .inner-name #{chat.userInfo.fullName} 
+                if(chat.content)
+                  .inner-content 
+                    | #{chat.content}
+                if(chat.images)
+                  .inner-images 
+                    each image in chat.images
+                      img(src=image)
+            div(class='inner-list-typing')
+
+          .inner-preview-images
+            div(class='custom-file-container' data-upload-id='upload-image')
+
           .inner-foot 
             form(
               class='inner-form'
@@ -38,5 +38,20 @@ block main
                 placeholder='Type chat content...'
                 name='content'
               )
+
+              label(
+                for='file-upload-with-preview-upload-image'
+                class='button-icon-img mx-2 mb-0'
+              ) 
+                <i class="fa-regular fa-image"></i>
+              span(class='button-icon mr-2')
+                i.fa-regular.fa-face-smile
+                
               button 
                 i.fa-solid.fa-paper-plane
+
+  div(class='tooltip' role='tooltip')
+    emoji-picker(class='light')
+
+  block script
+    script(type='module' src="/js/chat.js")

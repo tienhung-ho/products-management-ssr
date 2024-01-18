@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const generate = require('../helpers/generateString');
 
 const chatSchema = new mongoose.Schema(
 {
@@ -15,6 +14,6 @@ const chatSchema = new mongoose.Schema(
 },
 { timestamps: true })
 
-const Chat = mongoose.model("Chat", chatSchema, 'chats');
+const Chat = mongoose.model("Chat", chatSchema);
 
 module.exports = Chat;
