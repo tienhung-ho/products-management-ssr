@@ -10,9 +10,13 @@ const settingGeneralRouter = require('./setting.route.js')
 // Authorize middleware
 const authorizeMiddle = require('../../middlewares/admin/authorize.js')
 
+// controller
+const authorizeController = require('../../controllers/admin/authorize.controller.js')
 
 module.exports = (app) => {
     const PATH_ADMIN = '/' + app.locals.prefixAdmin
+
+    app.use(PATH_ADMIN, authorizeController.login)
 
     app.use(PATH_ADMIN + '/dashboard', 
     authorizeMiddle.requireAuthorize,
