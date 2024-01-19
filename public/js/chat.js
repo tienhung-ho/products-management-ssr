@@ -27,7 +27,7 @@ if (formSendData) {
 socket.on('SERVER_RETURN_MESSAGE', (data) => {
   const body = document.querySelector('.chat .inner-body')
   const myid = document.querySelector('[my-id]').getAttribute('my-id')
-
+  const boxTyping = document.querySelector('.chat .inner-list-typing')
   const div = document.createElement('div')
 
   let fullName = ""
@@ -45,7 +45,7 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
   <div class='inner-content'>${data.content}</div>
   `
 
-  body.appendChild(div)
+  body.insertBefore(div, boxTyping)
   body.scrollTop = body.scrollHeight
 })
 
@@ -68,10 +68,10 @@ if (bodyChat) {
 
 const button = document.querySelector('.button-icon')
 
-if(button) {
+if (button) {
   const tooltip = document.querySelector('.tooltip')
   Popper.createPopper(button, tooltip)
-  
+
   button.onclick = () => {
     tooltip.classList.toggle('shown')
   }
@@ -84,10 +84,81 @@ if (emojiPicker) {
   const input = document.querySelector(".chat .inner-form input[name='content']")
 
   emojiPicker.addEventListener('emoji-click', event => {
+    typing()
     const icon = event.detail.unicode;
 
+    const end = input.value.length
+    input.setSelectionRange(end, end)
+    input.focus()
+    
     input.value = input.value + icon
-    console.log(event.detail)
   })
+  // END EMOJI
+
 }
-// END EMOJI
+
+// typing
+const input = document.querySelector(".chat .inner-form input[name='content']")
+
+
+input.addEventListener('input', () => {
+  typing()
+})
+// TIMEOUT TYPING
+
+var timeOut;
+
+function typing () {
+  socket.emit('CLIENT_SEND_TYPING', "show")
+  
+  clearTimeout(timeOut)
+  
+  timeOut = setTimeout(() => {
+    socket.emit('CLIENT_SEND_TYPING', "hidden")
+  }, 3000);
+}
+
+// END TIMEOUT TYPING
+
+// socket return typing
+const elementListTyping = document.querySelector('.chat .inner-list-typing')
+
+if (elementListTyping) {
+  socket.on('SERVER_RETURN_TYPING', (data) => {
+    if (data.type == 'show') {
+
+      const existedTyping = elementListTyping.querySelector(`[user-id="${data.userId}"]`);
+  
+      if (!existedTyping) {
+        const boxTyping = document.createElement('div')
+        boxTyping.classList.add('box-typing')
+        boxTyping.setAttribute('user-id', data.userId)
+    
+        boxTyping.innerHTML = `
+        <div class='inner-name'>${data.fullName}</div>
+        <div class='inner-dots'>
+          <span></span>
+          <span></span> 
+          <span></span> 
+        </div>
+      `
+      elementListTyping.appendChild(boxTyping)
+      bodyChat.scrollTop = bodyChat.scrollHeight
+      }
+    }
+    else {
+      const removeTyping = elementListTyping.querySelector(`[user-id="${data.userId}"]`);
+      console.log(data.type);
+      if (removeTyping) {
+        elementListTyping.removeChild(removeTyping)
+        console.log(21312321);
+      }
+    }
+
+  })
+
+}
+
+// END socket return typing
+
+// END typing
