@@ -1,6 +1,25 @@
 
 import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js'
 
+
+
+
+
+// UPLOAT IMAGE
+
+const upload = new FileUploadWithPreview.FileUploadWithPreview('upload-image', {
+  multiple: true,
+  maxFileCount: 6,
+});
+
+console.log();
+
+// END UPLOAD IMAGE
+
+
+
+
+
 // CLIENT_SEND_MESS
 
 const formSendData = document.querySelector('.chat .inner-form')
@@ -9,11 +28,16 @@ if (formSendData) {
   formSendData.addEventListener("submit", (e) => {
     e.preventDefault()
     const content = e.target.elements.content.value
+    const images = upload.cachedFileArray || []
 
+    if (content || images) {
+      socket.emit('CLIENT_SEND_MESSAGE', { 
+        content,
+        images
+      })
 
-    if (content) {
-      socket.emit('CLIENT_SEND_MESSAGE', content)
       e.target.elements.content.value = ''
+      upload.resetPreviewPanel(); // clear all selected images
     }
   })
 }
@@ -31,6 +55,8 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
   const div = document.createElement('div')
 
   let fullName = ""
+  let content = ""
+  let image = ""
 
   if (data.userId == myid) {
     div.classList.add('inner-outgoing');
@@ -40,9 +66,27 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
     fullName = `<div class='inner-name'>${data.fullName}</div>`
   }
 
+  if (data.content) {
+    content = `<div class='inner-content'>${data.content}</div>`
+  }
+
+
+  if (data.images.length > 0) {
+    image += `<div class="inner-images"> `
+
+    
+
+    for (const img of data.images) {
+      console.log(img);
+      image += `<img src="${img}">`
+    }
+    image += `</div>`
+  }
+
   div.innerHTML = `
   ${fullName}
-  <div class='inner-content'>${data.content}</div>
+  ${content}
+  ${image}
   `
 
   body.insertBefore(div, boxTyping)
@@ -90,7 +134,7 @@ if (emojiPicker) {
     const end = input.value.length
     input.setSelectionRange(end, end)
     input.focus()
-    
+
     input.value = input.value + icon
   })
   // END EMOJI
@@ -162,3 +206,6 @@ if (elementListTyping) {
 // END socket return typing
 
 // END typing
+
+
+

@@ -1,48 +1,17 @@
 
 const ChatModel = require('../../models/chat.model')
 const UserModel  = require('../../models/users.model')
-const { use } = require('../../routes/client/product.route')
+const uploadToCloud = require('../../helpers/uploadToCloud')
+
+// chat socketIO
+const chatSocket = require('../../sockets/client/chat.sockets')
 
 // [GET] /chat
 module.exports.index = async (req, res) => {
   
-  const userId = res.locals.user.id
-  const fullName = res.locals.user.fullName
-
-
-  _io.once('connection', (socket) => {
-
-    socket.on('CLIENT_SEND_MESSAGE', async (content) => {
-    
-      const chat = new ChatModel({
-        user_id: userId,
-        content
-      })
-
-      await chat.save()
-
-
-      _io.emit("SERVER_RETURN_MESSAGE", {
-        userId,
-        fullName,
-        content
-      })
-
-    })
-
-    socket.on('CLIENT_SEND_TYPING', (type) => {
-      
-      socket.broadcast.emit("SERVER_RETURN_TYPING", {
-        userId,
-        fullName,
-        type
-      })
-
-    })
-
-    console.log('a user connected', socket.id);
-
-  })
+  // socketIO
+  chatSocket(res)
+  // END socketIO
 
   const chats = await ChatModel.find({
     deleted: false

@@ -280,7 +280,7 @@ module.exports.edit = async (req, res) => {
 
     const records = await ProductCategory.find(find)
 
-    console.log(product);
+
 
     res.render(`${systemConfig.prefixAdmin}/pages/product/edit.pug`, {
       titlePage: 'Edit product',

@@ -16,7 +16,7 @@ const authorizeController = require('../../controllers/admin/authorize.controlle
 module.exports = (app) => {
     const PATH_ADMIN = '/' + app.locals.prefixAdmin
 
-    app.use(PATH_ADMIN, authorizeController.login)
+    // app.use(PATH_ADMIN, authorizeController.login)
 
     app.use(PATH_ADMIN + '/dashboard', 
     authorizeMiddle.requireAuthorize,

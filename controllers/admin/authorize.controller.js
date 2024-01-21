@@ -32,7 +32,7 @@ module.exports.loginPost = async (req, res) => {
     else {
       const hashedPasswordFromDatabase = user.password;
       const isMatch = bcrypt.compareSync(password, hashedPasswordFromDatabase);
-
+      console.log(isMatch);
       if (user.status == 'inactive') {
         req.flash('changeError', 'Tài khoản bị vô hiệu hóa')
         res.redirect('back')
