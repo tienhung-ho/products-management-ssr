@@ -83,6 +83,41 @@ module.exports = async (res) => {
       })
 
 
+      // CANCEL REFUSE REQUEST
+
+      socket.on('CLIENT_REFUSE_FRIEND', async (data) => {
+        
+        // refuse id of A for B
+        const existUserAinB = await UserModel.findOne({
+          _id: userId,
+          acceptFriends: data
+        }) 
+
+        if (existUserAinB) {
+          await UserModel.updateOne(
+            { _id: userId }, {
+              $pull: { acceptFriends: data }
+            }
+          )
+        }
+
+        // refuse id of B for A
+
+        const existUserBinA = await UserModel.findOne({
+          _id: data,
+          requestFriends: userId
+        }) 
+
+
+        if (existUserBinA) {
+          await UserModel.updateOne(
+            { _id: data }, {
+              $pull: { requestFriends: userId }
+            }
+          )
+        } 
+      })
+
     })
   }
   catch (err) {

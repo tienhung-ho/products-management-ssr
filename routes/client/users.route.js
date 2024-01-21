@@ -17,4 +17,8 @@ router.get('/request',
   usersController.request
 )
 
+router.get('/accept',
+  usersController.accept
+)
+
 module.exports = router

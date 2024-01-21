@@ -563,4 +563,38 @@
 .box-user.add [btn-cancel-friend] {
   display: inline-block;
 }
+
+/*  */
+.box-user [btn-deleted-friend] {
+  display: none;
+}
+
+.box-user [btn-accepted-friend] {
+  display: none;
+}
+
+.box-user.refuse [btn-accept-friend] {
+  display: none;
+}
+
+.box-user.refuse [btn-deleted-friend] {
+  display: inline-block;
+}
+
+.box-user.refuse [btn-refuse-friend] {
+  display: none;
+}
+
+.box-user.add [btn-accepted-friend] {
+  display: inline-block;
+}
+
+.box-user.add [btn-refuse-friend] {
+  display: none;
+}
+
+.box-user.add [btn-accept-friend] {
+  display: none;
+}
+
 /* end box-user */
