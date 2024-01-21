@@ -6,13 +6,14 @@ import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm
 
 
 // UPLOAT IMAGE
+const body = document.querySelector('.chat .inner-body')
+if (body) {
+    const upload = new FileUploadWithPreview.FileUploadWithPreview('upload-image', {
+    multiple: true,
+    maxFileCount: 6,
+  });
+}
 
-const upload = new FileUploadWithPreview.FileUploadWithPreview('upload-image', {
-  multiple: true,
-  maxFileCount: 6,
-});
-
-console.log();
 
 // END UPLOAD IMAGE
 
@@ -74,7 +75,7 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
   if (data.images.length > 0) {
     image += `<div class="inner-images"> `
 
-    
+
 
     for (const img of data.images) {
       console.log(img);
@@ -208,4 +209,13 @@ if (elementListTyping) {
 // END typing
 
 
+// SHOW FULL IMG
+
+const chat = document.querySelector('.chat .inner-body')
+if (chat) {
+  const gallery = new Viewer(chat);
+
+}
+
+// END SHOW FULL IMG
 
