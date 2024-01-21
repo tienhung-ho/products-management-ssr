@@ -6,13 +6,11 @@ import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm
 
 
 // UPLOAT IMAGE
-const body = document.querySelector('.chat .inner-body')
-if (body) {
+
     const upload = new FileUploadWithPreview.FileUploadWithPreview('upload-image', {
     multiple: true,
     maxFileCount: 6,
   });
-}
 
 
 // END UPLOAD IMAGE
@@ -78,7 +76,6 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
 
 
     for (const img of data.images) {
-      console.log(img);
       image += `<img src="${img}">`
     }
     image += `</div>`
@@ -92,6 +89,12 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
 
   body.insertBefore(div, boxTyping)
   body.scrollTop = body.scrollHeight
+
+  const boxImage = div.querySelector('.inner-images')
+
+  if (boxImage) { 
+    const gallery = new Viewer(boxImage);
+  }
 })
 
 
@@ -196,7 +199,6 @@ if (elementListTyping) {
       console.log(data.type);
       if (removeTyping) {
         elementListTyping.removeChild(removeTyping)
-        console.log(21312321);
       }
     }
 
