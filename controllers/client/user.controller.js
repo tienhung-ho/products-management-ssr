@@ -34,12 +34,16 @@ module.exports.registerPost = async (req, res) => {
     return
   }
 
+
   const plainTextPassword = req.body.password;
   req.body.password = await bcrypt.hash(plainTextPassword, saltRounds);
 
+
   req.flash('changeSuccess', "Tạo tài khoảng thành công!")
-  const user = new usersModel(req.body)
-  await user.save()
+  const tokenUser = genarate.generateRandomString(30)
+  req.body.tokenUser = tokenUser
+  const user = await usersModel.create(req.body)
+  console.log(user.tokenUser);
 
   res.cookie("tokenUser", user.tokenUser)
 
@@ -66,6 +70,7 @@ module.exports.loginPost = async (req, res) => {
     deleted: false
   })
 
+
   if (!user) {
     req.flash('changeError', "Tài khoản không tồn tại!")
     res.redirect('back')
@@ -91,6 +96,7 @@ module.exports.loginPost = async (req, res) => {
       user_id: user.id
     })
 
+    console.log(user.tokenUser);
 
     res.cookie("tokenUser", user.tokenUser, { maxAge:  maxAge})
 

@@ -11,7 +11,7 @@ const accountSchema = new Schema({
     password: String,
     token: {
       type: String,
-      default: genarate.genarateRanString(40)
+      default: genarate.generateRandomString(40)
     },
     phone: String,
     avatar: String,
