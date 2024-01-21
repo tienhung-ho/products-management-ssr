@@ -6,9 +6,9 @@ const userModel = require('../../models/users.model')
 
 const usersSocket = require('../../sockets/client/users.sockets')
 
-// [GET] /users/notFriend
+// [GET] /users/not-friend
 module.exports.notFriend = async (req, res) => {
-  
+
   const userId = res.locals.user.id
 
   const myUser = await userModel.findOne({
@@ -23,9 +23,9 @@ module.exports.notFriend = async (req, res) => {
 
   const users = await userModel.find({
     $and: [
-     { _id: { $ne: userId } },
-     { _id: { $nin: requestFriends } },
-     { _id: { $nin: acceptFriends } },
+      { _id: { $ne: userId } },
+      { _id: { $nin: requestFriends } },
+      { _id: { $nin: acceptFriends } },
 
     ],
     status: 'active',
@@ -41,7 +41,39 @@ module.exports.notFriend = async (req, res) => {
 
 
   res.render(`${systemConfig.prefixClient}/pages/users/not-friend.pug`, {
-    titlePage: 'Đăng ký',
+    titlePage: 'Danh sách người dùng',
+    users
+  })
+}
+
+
+// [GET] /users/request
+module.exports.request = async (req, res) => {
+  const userId = res.locals.user.id
+
+  
+  // SOCKET
+
+  usersSocket(res)
+
+  //  END SOCKET
+
+  const myUser = await userModel.findOne({
+    _id: userId,
+    deleted: false,
+    status: 'active'
+  })
+
+  const requestFriends = myUser.requestFriends
+
+  const users = await userModel.find({
+    _id: { $in: requestFriends },
+    status: 'active',
+    deleted: false
+  }).select('avarta fullName')
+
+  res.render(`${systemConfig.prefixClient}/pages/users/request.pug`, {
+    titlePage: 'Danh sách yêu cầu đã gửi',
     users
   })
 }

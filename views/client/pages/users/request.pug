@@ -1,0 +1,35 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+include ../../mixins/box-head.pug
+
+block main 
+  +alert-error(3000)
+  +alert-success(3000)
+  .container.my-3
+    include ../../partials/list-user.pug
+    .row
+      .col-12 
+        +box-head('Lời mời kết bạn đã gửi')
+    .row
+      each user in users
+        .col-6 
+            div(class='box-user add')
+              div(class='inner-avatar')
+                img(
+                  src=(user.avatar ? user.avatar : "/images/free-user-icon-3296-thumb.png")
+                  alt=user.fullName
+                )
+              div(class='inner-info')
+                div(class='inner-name') #{user.fullName}
+                div(class='inner-buttons')
+                  button(
+                    class='btn btn-sm btn-primary me-1'
+                    btn-add-friend=user.id
+                  ) Thêm bạn
+                  button(
+                    class='btn btn-sm btn-secondary me-1'
+                    btn-cancel-friend=user.id
+                  ) Xóa
+  block script 
+
+    script(type='module' src='/js/users.js')

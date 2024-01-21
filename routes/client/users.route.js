@@ -13,4 +13,8 @@ router.get('/not-friend',
   usersController.notFriend
 )
 
+router.get('/request',
+  usersController.request
+)
+
 module.exports = router
