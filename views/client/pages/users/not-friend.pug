@@ -1,0 +1,28 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+
+block main 
+  +alert-error(3000)
+  +alert-success(3000)
+  .container.my-3
+    include ../../partials/list-user.pug
+    .row
+      each user in users
+        .col-6 
+            div(class='box-user')
+              div(class='inner-avatar')
+                img(
+                  src=(user.avatar ? user.avatar : "/images/free-user-icon-3296-thumb.png")
+                  alt=user.fullName
+                )
+              div(class='inner-info')
+                div(class='inner-name') #{user.fullName}
+                div(class='inner-buttons')
+                  button(
+                    class='btn btn-sm btn-primary me-1'
+                    button-add-friend=user.id
+                  ) Add friend
+                  button(
+                    class='btn btn-sm btn-secondary me-1'
+                    button-cancel-friend=user.id
+                  ) Cancel

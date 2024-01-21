@@ -1,0 +1,23 @@
+.row 
+  .col-12 
+    a(
+      class='btn btn-primary m-1'
+      href='/users/not-friend'
+    ) User list
+    a(
+      class='btn btn-primary m-1'
+      href='/users/friends'
+    ) Friend list
+    a(
+      class='btn btn-primary m-1'
+      href='/users/request'
+    ) Request sended
+    a(
+      class='btn btn-primary m-1'
+      href='/users/accept'
+    ) 
+      | Friend requests
+      span(
+        class='badge badge-light'
+        badge-users-accept=user.id
+      ) #{user.acceptFriends.length}
