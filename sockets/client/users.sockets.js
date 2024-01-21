@@ -15,17 +15,17 @@ module.exports = async (res) => {
 
     _io.once('connection', (socket) => {
 
-      socket.on('CLIENT_ADD_FRIEND', async (data) => {
+      socket.on('CLIENT_ADD_FRIEND', async (orthersId) => {
         
         // add id of A for B
         const existUserAinB = await UserModel.findOne({
-          _id: data,
+          _id: orthersId,
           acceptFriends: userId
         }) 
 
         if (!existUserAinB) {
           await UserModel.updateOne(
-            { _id: data }, {
+            { _id: orthersId }, {
               $push: { acceptFriends: userId }
             }
           )
@@ -35,13 +35,13 @@ module.exports = async (res) => {
 
         const existUserBinA = await UserModel.findOne({
           _id: userId,
-          acceptFriends: data
+          acceptFriends: orthersId
         }) 
 
         if (!existUserBinA) {
           await UserModel.updateOne(
             { _id: userId }, {
-              $push: { requestFriends: data }
+              $push: { requestFriends: orthersId }
             }
           )
         } 
@@ -49,17 +49,17 @@ module.exports = async (res) => {
 
       // CANCEL REQUEST
 
-      socket.on('CLIENT_CANCEL_FRIEND', async (data) => {
+      socket.on('CLIENT_CANCEL_FRIEND', async (orthersId) => {
         
         // remove id of A for B
         const existUserAinB = await UserModel.findOne({
-          _id: data,
+          _id: orthersId,
           acceptFriends: userId
         }) 
 
         if (existUserAinB) {
           await UserModel.updateOne(
-            { _id: data }, {
+            { _id: orthersId }, {
               $pull: { acceptFriends: userId }
             }
           )
@@ -69,14 +69,14 @@ module.exports = async (res) => {
 
         const existUserBinA = await UserModel.findOne({
           _id: userId,
-          requestFriends: data
+          requestFriends: orthersId
         }) 
 
 
         if (existUserBinA) {
           await UserModel.updateOne(
             { _id: userId }, {
-              $pull: { requestFriends: data }
+              $pull: { requestFriends: orthersId }
             }
           )
         } 
@@ -85,18 +85,18 @@ module.exports = async (res) => {
 
       // CANCEL REFUSE REQUEST
 
-      socket.on('CLIENT_REFUSE_FRIEND', async (data) => {
+      socket.on('CLIENT_REFUSE_FRIEND', async (orthersId) => {
         
         // refuse id of A for B
         const existUserAinB = await UserModel.findOne({
           _id: userId,
-          acceptFriends: data
+          acceptFriends: orthersId
         }) 
 
         if (existUserAinB) {
           await UserModel.updateOne(
             { _id: userId }, {
-              $pull: { acceptFriends: data }
+              $pull: { acceptFriends: orthersId }
             }
           )
         }
@@ -104,14 +104,65 @@ module.exports = async (res) => {
         // refuse id of B for A
 
         const existUserBinA = await UserModel.findOne({
-          _id: data,
+          _id: orthersId,
           requestFriends: userId
         }) 
 
 
         if (existUserBinA) {
           await UserModel.updateOne(
-            { _id: data }, {
+            { _id: orthersId }, {
+              $pull: { requestFriends: userId }
+            }
+          )
+        } 
+      })
+
+      // ACCEPT REQUEST FRIEND
+      
+
+      socket.on('CLIENT_ACCEPT_FRIEND', async (orthersId) => {
+
+        
+        // refuse id of A for B
+        const existUserAinB = await UserModel.findOne({
+          _id: userId,
+          acceptFriends: orthersId
+        }) 
+
+        if (existUserAinB) {
+          await UserModel.updateOne(
+            { _id: userId }, {
+              $push: { friendList: {
+                room_chat_id: '',
+                user_id: orthersId
+              } 
+            },$push: { friendList: {
+                room_chat_id: '',
+                user_id: orthersId
+              } 
+            },
+              $pull: { acceptFriends: orthersId }
+            }
+          )
+        }
+
+        // refuse id of B for A
+
+        const existUserBinA = await UserModel.findOne({
+          _id: orthersId,
+          requestFriends: userId
+        }) 
+
+
+        if (existUserBinA) {
+          await UserModel.updateOne(
+            { _id: orthersId }, {
+              $push: { friendList: {
+                room_chat_id: '',
+                user_id: userId
+              } 
+            },
               $pull: { requestFriends: userId }
             }
           )

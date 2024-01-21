@@ -585,15 +585,15 @@
   display: none;
 }
 
-.box-user.add [btn-accepted-friend] {
+.box-user.accepted [btn-accepted-friend] {
   display: inline-block;
 }
 
-.box-user.add [btn-refuse-friend] {
+.box-user.accepted [btn-refuse-friend] {
   display: none;
 }
 
-.box-user.add [btn-accept-friend] {
+.box-user.accepted [btn-accept-friend] {
   display: none;
 }
 

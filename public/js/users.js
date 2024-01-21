@@ -54,4 +54,19 @@ if (listRefuseFriendBtn.length > 0) {
 
 // END REFUSE REQUEST FRIEND
 
+// ACCEPT REQUEST FRIEND
 
+const listAcceptFriendBtn = document.querySelectorAll('[btn-accept-friend]');
+
+if (listAcceptFriendBtn.length > 0) {
+  listAcceptFriendBtn.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btn.closest('.box-user').classList.add('accepted');
+
+      const userId = btn.getAttribute('btn-accept-friend');
+      socket.emit('CLIENT_ACCEPT_FRIEND', userId);
+    })
+  })
+}
+
+// END ACCEPT REQUEST FRIEND
