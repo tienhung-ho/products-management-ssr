@@ -214,7 +214,15 @@ module.exports = async (res) => {
               $pull: { requestFriends: userId }
             }
           )
-        } 
+        }
+        
+        // lấy id của A trả cho B
+        socket.broadcast.emit("SERVER_RETURN_USER_ID_ACCEPT_FRIENDS", {
+          userId: orthersId,
+          orthersId: userId
+        })
+
+
       })
 
     })

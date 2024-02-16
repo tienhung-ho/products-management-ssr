@@ -105,57 +105,99 @@ socket.on('SERVER_RETURN_LENGTH_ACCEPT_FRIENDS', (data) => {
 
 socket.on('SERVER_RETURN_INFO_ACCEPT_FRIENDS', (data) => {
   const badgeUsersAccept = document.querySelector('[data-users-accept]')
-  // if (badgeUsersAccept) {
-  const userId = badgeUsersAccept.getAttribute('data-users-accept')
-  // }
-
-  if (userId == data.userId) {
-    // display user ra giao diện
-    const newBoxUser = document.createElement('div')
-    newBoxUser.classList.add('col-6')
-    newBoxUser.setAttribute('user-id', data.infoA._id)
-
-    newBoxUser.innerHTML = `
-    <div class="box-user">
-        <div class="inner-avatar"><img src="/images/free-user-icon-3296-thumb.png" alt="${data.infoA.fullName}"></div>
-        <div class="inner-info">
-          <div class="inner-name"> ${data.infoA.fullName} </div>
-          <div class="inner-buttons"><button class="btn btn-sm btn-primary me-1"
-              btn-accept-friend=${data.infoA._id}>Chấp nhận</button><button class="btn btn-sm btn-secondary me-1"
-              btn-refuse-friend=${data.infoA._id}>Từ chối</button><button class="btn btn-sm btn-secondary me-1"
-              btn-deleted-friend="" disabled="">Đã từ chối</button><button class="btn btn-sm btn-secondary me-1"
-              btn-accepted-friend="" disabled="">Đã chấp nhận</button></div>
+  // START REQUEST FRIEND PAGE
+  if (badgeUsersAccept) {
+    const userId = badgeUsersAccept.getAttribute('data-users-accept')
+    if (userId == data.userId) {
+      // display user ra giao diện
+      const newBoxUser = document.createElement('div')
+      newBoxUser.classList.add('col-6')
+      newBoxUser.setAttribute('user-id', data.infoA._id)
+  
+      newBoxUser.innerHTML = `
+      <div class="box-user">
+          <div class="inner-avatar"><img src="/images/free-user-icon-3296-thumb.png" alt="${data.infoA.fullName}"></div>
+          <div class="inner-info">
+            <div class="inner-name"> ${data.infoA.fullName} </div>
+            <div class="inner-buttons"><button class="btn btn-sm btn-primary me-1"
+                btn-accept-friend=${data.infoA._id}>Chấp nhận</button><button class="btn btn-sm btn-secondary me-1"
+                btn-refuse-friend=${data.infoA._id}>Từ chối</button><button class="btn btn-sm btn-secondary me-1"
+                btn-deleted-friend="" disabled="">Đã từ chối</button><button class="btn btn-sm btn-secondary me-1"
+                btn-accepted-friend="" disabled="">Đã chấp nhận</button></div>
+          </div>
         </div>
-      </div>
-    `
+      `
+  
+  
+      badgeUsersAccept.appendChild(newBoxUser)
+      // START REFUSE REQUEST FRIENDS
+      const listRefuseFriendBtn = newBoxUser.querySelector('[btn-refuse-friend]');
+      refuseRequestFriend(listRefuseFriendBtn)
+      // END REFUSE REQUEST FRIENDS
+  
+      // START ACCEPT REQUEST FRIENDS
+      const listAcceptFriendBtn = newBoxUser.querySelector('[btn-accept-friend]');
+      acceptRequestFriend(listAcceptFriendBtn)
+      // END ACCEPT REQUEST FRIENDS
+  
+    }
+  }
 
+  // END REQUEST FRIEND PAGE
 
-    badgeUsersAccept.appendChild(newBoxUser)
-    // START REFUSE REQUEST FRIENDS
-    const listRefuseFriendBtn = newBoxUser.querySelector('[btn-refuse-friend]');
-    refuseRequestFriend(listRefuseFriendBtn)
-    // END REFUSE REQUEST FRIENDS
+  // START LIST USER
+  const badgeUsersNotFriends = document.querySelector('[data-users-not-friend]')
 
-    // START ACCEPT REQUEST FRIENDS
-    const listAcceptFriendBtn = newBoxUser.querySelector('[btn-accept-friend]');
-    acceptRequestFriend(listAcceptFriendBtn)
-    // END ACCEPT REQUEST FRIENDS
+  if (badgeUsersNotFriends) {
+    const userId = badgeUsersNotFriends.getAttribute('data-users-not-friend')
+    if (userId == data.userId) {
+      const boxUserRemoved = badgeUsersNotFriends.querySelector(`[user-id='${data.infoA._id}'`)
+      if (boxUserRemoved) {
+        badgeUsersNotFriends.removeChild(boxUserRemoved)
+      }
+    }
 
   }
+
+  // END LIST USER
+
+
 })
 
 // END SERVER RETURN LENGTH OF ACCEPT FRIENDS
+
 
 // START SERVER RETURN USER ID CANCEL FRIENDS
 
 socket.on('SERVER_RETURN_USER_ID_CANCEL_FRIENDS', (data) => {
   const dataUserAccept = document.querySelector('[data-users-accept]')
-  const userId = dataUserAccept.getAttribute('data-users-accept')
-  if (userId == data.userId) {
-    const boxUserRemoved = dataUserAccept.querySelector(`[user-id='${data.orthersId}'`)
-    dataUserAccept.removeChild(boxUserRemoved)
+  if (dataUserAccept) {
+    const userId = dataUserAccept.getAttribute('data-users-accept')
+    if (userId == data.userId) {
+      const boxUserRemoved = dataUserAccept.querySelector(`[user-id='${data.orthersId}'`)
+      dataUserAccept.removeChild(boxUserRemoved)
+    }
   }
 
+})
+
+// END SERVER RETURN USER ID CANCEL FRIENDS
+
+
+// START SERVER RETURN USER ID ACCEPT FRIENDS
+
+socket.on('SERVER_RETURN_USER_ID_ACCEPT_FRIENDS', (data) => {
+  const badgeUsersNotFriends = document.querySelector('[data-users-not-friend]')
+  if (badgeUsersNotFriends) {
+    const userId = badgeUsersNotFriends.getAttribute('data-users-not-friend')
+    if (userId == data.userId) {
+      const boxUserRemoved = badgeUsersNotFriends.querySelector(`[user-id='${data.orthersId}'`)
+      if (boxUserRemoved) {
+        badgeUsersNotFriends.removeChild(boxUserRemoved)
+      }
+    }
+
+  }
 })
 
 // END SERVER RETURN USER ID CANCEL FRIENDS

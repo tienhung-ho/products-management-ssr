@@ -6,9 +6,9 @@ block main
   +alert-success(3000)
   .container.my-3
     include ../../partials/list-user.pug
-    .row
+    .row(data-users-not-friend=user.id)
       each user in users
-        .col-6 
+        .col-6(user-id=user.id)
             div(class='box-user')
               div(class='inner-avatar')
                 img(
