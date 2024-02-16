@@ -202,3 +202,34 @@ socket.on('SERVER_RETURN_USER_ID_ACCEPT_FRIENDS', (data) => {
 
 // END SERVER RETURN USER ID CANCEL FRIENDS
 
+function setUserStatus (status, userId) {
+  const dataUserStatus = document.querySelector('[data-users-friend]')
+
+  if (dataUserStatus) {
+    const boxUser = dataUserStatus.querySelector(`[user-id='${userId}']`)
+
+    if (boxUser) {
+      boxUser.querySelector('[status]').setAttribute('status', status)
+    }
+  }
+}
+
+// START SERVER RETURN USER STATUS ONLINE
+
+socket.on('SERVER_RETURN_USER_STATUS_ONLINE', (data) => {
+  setUserStatus('online', data)
+
+})
+
+// END SERVER RETURN USER STATUS ONLINE
+
+// START SERVER RETURN USER STATUS OFFLINE
+
+socket.on('SERVER_RETURN_USER_STATUS_OFFLINE', (data) => {
+  setUserStatus('offline', data)
+
+})
+
+// END SERVER RETURN USER STATUS OFFLINE
+
+

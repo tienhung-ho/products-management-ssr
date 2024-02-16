@@ -106,6 +106,13 @@ module.exports.loginPost = async (req, res) => {
       }
     )
 
+    _io.once('connection', (socket) => {
+
+      // Gửi trạng thái đến những người khác
+      socket.broadcast.emit('SERVER_RETURN_USER_STATUS_ONLINE', user.id)
+
+    })
+
     req.flash('changeSuccess', "Đăng nhập khoảng thành công!")
 
     res.redirect(`/product`)
@@ -126,6 +133,14 @@ module.exports.logout = async (req, res) => {
       onlineStatus: 'offline'
     }
   )
+
+  _io.once('connection', (socket) => {
+
+    // Gửi trạng thái đến những người khác
+    socket.broadcast.emit('SERVER_RETURN_USER_STATUS_OFFLINE', res.locals.user.id)
+
+  })
+
   res.clearCookie('tokenUser')
   res.redirect('/')
 }
