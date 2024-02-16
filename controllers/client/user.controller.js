@@ -96,9 +96,15 @@ module.exports.loginPost = async (req, res) => {
       user_id: user.id
     })
 
-    console.log(user.tokenUser);
-
     res.cookie("tokenUser", user.tokenUser, { maxAge:  maxAge})
+
+    await usersModel.updateOne({
+      _id: user.id
+    },
+      {
+        onlineStatus: 'online'
+      }
+    )
 
     req.flash('changeSuccess', "Đăng nhập khoảng thành công!")
 
@@ -113,8 +119,14 @@ module.exports.loginPost = async (req, res) => {
 
 // [GET] /user/logout
 module.exports.logout = async (req, res) => {
+  await usersModel.updateOne({
+    _id: res.locals.user.id
+  },
+    {
+      onlineStatus: 'offline'
+    }
+  )
   res.clearCookie('tokenUser')
-
   res.redirect('/')
 }
 

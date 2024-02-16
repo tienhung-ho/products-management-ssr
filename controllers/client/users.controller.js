@@ -112,3 +112,36 @@ module.exports.accept = async (req, res) => {
   })
 }
 
+// [GET] /users/friends
+module.exports.friends = async (req, res) => {
+  const userId = res.locals.user.id
+
+  
+  // SOCKET
+
+  usersSocket(res)
+
+  //  END SOCKET
+
+  const myUser = await userModel.findOne({
+    _id: userId,
+    deleted: false,
+    status: 'active'
+  })
+
+  const friends = myUser.friendList
+  const friendsId = friends.map(item => item.user_id)
+
+  const users = await userModel.find({
+    _id: { $in: friendsId },
+    status: 'active',
+    deleted: false
+  }).select('avatar fullName onlineStatus')
+
+
+  res.render(`${systemConfig.prefixClient}/pages/users/friends.pug`, {
+    titlePage: 'Danh sách bạn bè',
+    users
+  })
+}
+
