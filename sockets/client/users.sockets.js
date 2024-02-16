@@ -61,6 +61,17 @@ module.exports = async (res) => {
           lengthAcceptFriends: lengthAcceptFriendsB
         })
 
+        const infoA = await UserModel.findOne({
+          _id: userId
+        }).select('avatar fullName')
+
+        socket.broadcast.emit("SERVER_RETURN_INFO_ACCEPT_FRIENDS", {
+          userId: orthersId,
+          infoA
+        })
+
+
+
       })
 
       // CANCEL REQUEST
@@ -109,6 +120,13 @@ module.exports = async (res) => {
           userId: orthersId,
           lengthAcceptFriends: lengthAcceptFriendsB
         })
+
+        // lấy id của A trả cho B
+        socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL_FRIENDS", {
+          userId: orthersId,
+          orthersId: userId
+        })
+
       })
 
 
