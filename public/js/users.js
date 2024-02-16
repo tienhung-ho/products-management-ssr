@@ -113,9 +113,10 @@ socket.on('SERVER_RETURN_INFO_ACCEPT_FRIENDS', (data) => {
     // display user ra giao diện
     const newBoxUser = document.createElement('div')
     newBoxUser.classList.add('col-6')
+    newBoxUser.setAttribute('user-id', data.infoA._id)
 
     newBoxUser.innerHTML = `
-    <div class="box-user" user-id=${data.infoA._id}>
+    <div class="box-user">
         <div class="inner-avatar"><img src="/images/free-user-icon-3296-thumb.png" alt="${data.infoA.fullName}"></div>
         <div class="inner-info">
           <div class="inner-name"> ${data.infoA.fullName} </div>
@@ -148,8 +149,12 @@ socket.on('SERVER_RETURN_INFO_ACCEPT_FRIENDS', (data) => {
 // START SERVER RETURN USER ID CANCEL FRIENDS
 
 socket.on('SERVER_RETURN_USER_ID_CANCEL_FRIENDS', (data) => {
-  const userId = document.querySelector('[user-id]')
-  console.log(userId);
+  const dataUserAccept = document.querySelector('[data-users-accept]')
+  const userId = dataUserAccept.getAttribute('data-users-accept')
+  if (userId == data.userId) {
+    const boxUserRemoved = dataUserAccept.querySelector(`[user-id='${data.orthersId}'`)
+    dataUserAccept.removeChild(boxUserRemoved)
+  }
 
 })
 
