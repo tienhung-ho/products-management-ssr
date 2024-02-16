@@ -32,7 +32,7 @@ module.exports.notFriend = async (req, res) => {
     ],
     status: 'active',
     deleted: false
-  }).select('avarta fullName')
+  }).select('avatar fullName')
 
 
   // SOCKET
@@ -72,7 +72,7 @@ module.exports.request = async (req, res) => {
     _id: { $in: requestFriends },
     status: 'active',
     deleted: false
-  }).select('avarta fullName')
+  }).select('avatar fullName')
 
   res.render(`${systemConfig.prefixClient}/pages/users/request.pug`, {
     titlePage: 'Danh sách yêu cầu đã gửi',
@@ -104,7 +104,7 @@ module.exports.accept = async (req, res) => {
     _id: { $in: acceptFriends },
     status: 'active',
     deleted: false
-  }).select('avarta fullName')
+  }).select('avatar fullName')
 
   res.render(`${systemConfig.prefixClient}/pages/users/accept.pug`, {
     titlePage: 'Danh sách yêu cầu kết bạn',

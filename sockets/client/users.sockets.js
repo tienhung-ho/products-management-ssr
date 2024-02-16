@@ -15,6 +15,8 @@ module.exports = async (res) => {
 
     _io.once('connection', (socket) => {
 
+      // Gửi lời mời kết bạn
+
       socket.on('CLIENT_ADD_FRIEND', async (orthersId) => {
         
         // add id of A for B
@@ -45,6 +47,20 @@ module.exports = async (res) => {
             }
           )
         } 
+        // Lấy độ dài
+
+        const acceptFriendsB = await UserModel.findOne({
+          _id: orthersId
+        })
+
+        const lengthAcceptFriendsB = acceptFriendsB.acceptFriends.length
+
+
+        socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIENDS", {
+          userId: orthersId,
+          lengthAcceptFriends: lengthAcceptFriendsB
+        })
+
       })
 
       // CANCEL REQUEST
@@ -80,6 +96,19 @@ module.exports = async (res) => {
             }
           )
         } 
+
+        // Lấy độ dài list accept friends
+        
+        const acceptFriendsB = await UserModel.findOne({
+          _id: orthersId
+        })
+
+        const lengthAcceptFriendsB = acceptFriendsB.acceptFriends.length
+
+        socket.broadcast.emit("SERVER_RETURN_LENGTH_ACCEPT_FRIENDS", {
+          userId: orthersId,
+          lengthAcceptFriends: lengthAcceptFriendsB
+        })
       })
 
 
@@ -116,6 +145,7 @@ module.exports = async (res) => {
             }
           )
         } 
+        
       })
 
       // ACCEPT REQUEST FRIEND

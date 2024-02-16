@@ -70,3 +70,18 @@ if (listAcceptFriendBtn.length > 0) {
 }
 
 // END ACCEPT REQUEST FRIEND
+
+// START SERVER RETURN LENGTH OF ACCEPT FRIENDS
+
+socket.on('SERVER_RETURN_LENGTH_ACCEPT_FRIENDS', (data) => {
+  const badgeUsersAccept = document.querySelector('[badge-users-accept]')
+  const userId = badgeUsersAccept.getAttribute('badge-users-accept')
+  console.log(userId, data.lengthAcceptFriends);
+  if (userId == data.userId) {
+    badgeUsersAccept.innerHTML = data.lengthAcceptFriends
+  }
+
+
+})
+
+// END SERVER RETURN LENGTH OF ACCEPT FRIENDS
