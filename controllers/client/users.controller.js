@@ -138,6 +138,10 @@ module.exports.friends = async (req, res) => {
     deleted: false
   }).select('avatar fullName onlineStatus')
 
+  users.forEach(user => {
+    const infoUser = friends.find(item => item.user_id == user.id)
+    user.roomChatId = infoUser.room_chat_id
+  })
 
   res.render(`${systemConfig.prefixClient}/pages/users/friends.pug`, {
     titlePage: 'Danh sách bạn bè',

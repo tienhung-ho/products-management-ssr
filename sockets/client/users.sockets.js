@@ -2,7 +2,7 @@
 const ChatModel = require('../../models/chat.model')
 const UserModel = require('../../models/users.model')
 const uploadToCloud = require('../../helpers/uploadToCloud')
-const { use } = require('../../routes/client/users.route')
+const RoomChatModel = require('../../models/room-chat.model')
 
 
 module.exports = async (res) => {
@@ -170,23 +170,45 @@ module.exports = async (res) => {
       
 
       socket.on('CLIENT_ACCEPT_FRIEND', async (orthersId) => {
-
         
-        // refuse id of A for B
+        // create room chat
+        let roomChat
+        
         const existUserAinB = await UserModel.findOne({
           _id: userId,
           acceptFriends: orthersId
         }) 
+        
+        const existUserBinA = await UserModel.findOne({
+          _id: orthersId,
+          requestFriends: userId
+        }) 
 
+        if (existUserAinB && existUserBinA) {
+          roomChat = new RoomChatModel({
+            typeRoom: 'friend',
+            users: [
+              {
+                user_id: userId,
+                role: 'admin',
+              },
+
+              {
+                user_id: orthersId,
+                role: 'admin',
+              }
+            ],
+
+          })
+          await roomChat.save()
+        }
+        
+        // refuse id of A for B
         if (existUserAinB) {
           await UserModel.updateOne(
             { _id: userId }, {
               $push: { friendList: {
-                room_chat_id: '',
-                user_id: orthersId
-              } 
-            },$push: { friendList: {
-                room_chat_id: '',
+                room_chat_id: roomChat.id,
                 user_id: orthersId
               } 
             },
@@ -197,17 +219,11 @@ module.exports = async (res) => {
 
         // refuse id of B for A
 
-        const existUserBinA = await UserModel.findOne({
-          _id: orthersId,
-          requestFriends: userId
-        }) 
-
-
         if (existUserBinA) {
           await UserModel.updateOne(
             { _id: orthersId }, {
               $push: { friendList: {
-                room_chat_id: '',
+                room_chat_id: roomChat.id,
                 user_id: userId
               } 
             },

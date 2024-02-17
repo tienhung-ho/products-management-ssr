@@ -4,7 +4,7 @@ const UserModel = require('../../models/users.model')
 const uploadToCloud = require('../../helpers/uploadToCloud')
 
 
-module.exports = async (res) => {
+module.exports = async (res, req) => {
 
   try {
 
@@ -12,7 +12,7 @@ module.exports = async (res) => {
     const fullName = res.locals.user.fullName
 
     _io.once('connection', (socket) => {
-
+      socket.join(req.params.roomId)
       socket.on('CLIENT_SEND_MESSAGE', async (data) => {
 
         let images = []
@@ -25,7 +25,8 @@ module.exports = async (res) => {
         const chat = new ChatModel({
           user_id: userId,
           content: data.content,
-          images
+          images,
+          room_chat_id: req.params.roomId
 
 
         })
@@ -33,7 +34,7 @@ module.exports = async (res) => {
         await chat.save()
 
 
-        _io.emit("SERVER_RETURN_MESSAGE", {
+        _io.to(req.params.roomId).emit("SERVER_RETURN_MESSAGE", {
           userId,
           fullName,
           data,
@@ -45,7 +46,7 @@ module.exports = async (res) => {
 
       socket.on('CLIENT_SEND_TYPING', (type) => {
 
-        socket.broadcast.emit("SERVER_RETURN_TYPING", {
+        socket.broadcast.to(req.params.roomId).emit("SERVER_RETURN_TYPING", {
           userId,
           fullName,
           type

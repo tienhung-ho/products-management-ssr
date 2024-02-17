@@ -6,15 +6,18 @@ const uploadToCloud = require('../../helpers/uploadToCloud')
 // chat socketIO
 const chatSocket = require('../../sockets/client/chat.sockets')
 
-// [GET] /chat
+// [GET] /chat/:roomId
 module.exports.index = async (req, res) => {
-  
+
+  const roomChatId = req.params.roomId
+
   // socketIO
-  chatSocket(res)
+  chatSocket(res, req)
   // END socketIO
 
   const chats = await ChatModel.find({
-    deleted: false
+    deleted: false,
+    room_chat_id: roomChatId
   })
 
   for (const chat of chats) {
