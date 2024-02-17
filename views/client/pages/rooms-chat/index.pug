@@ -1,0 +1,36 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main 
+  .container.my-3
+
+    include ../../partials/list-user.pug
+
+    .row
+      .col-12 
+        +box-head('Phòng chat')
+    .row 
+      .col-12 
+        a(
+          href='/rooms-chat/create'
+          class='btn btn-sm btn-success mr-1'
+        ) Tạo phòng
+      
+    .row
+      .col-6 
+        div(class='box-room')
+          div(class='inner-avatar')
+            img(
+              src='https://robohash.org/hicveldicta.png'
+              alt='Room abc'
+            )
+          div(class='inner-info')
+            div(class='inner-name') Room abc
+            div(class='inner-buttons')
+              a(
+                href="#"
+                class='btn btn-sm btn-primary mr-1'
+              ) Send message
+          
+
+        

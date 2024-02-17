@@ -4,8 +4,9 @@ const searchRouter = require('./search.route.js')
 const cartRouter = require('./cart.route.js')
 const checkoutRoute = require('./checkout.route.js')
 const userRoute = require('./user.route.js')
-const chatModel = require('./chat.route.js')
+const chatRoute = require('./chat.route.js')
 const usersRoute = require('./users.route.js')
+const roomChatRoute = require('./rooms-chat.route.js')
 
 
 // middleware
@@ -26,7 +27,8 @@ module.exports = (app) => {
 
   app.use(settingMiddlewares.settingGeneral)
 
-  app.use('/chat', authMiddelwares.requireAuthorize, chatModel)
+  app.use('/chat', authMiddelwares.requireAuthorize, chatRoute)
+  app.use('/rooms-chat', authMiddelwares.requireAuthorize, roomChatRoute)
 
   app.use('/users', authMiddelwares.requireAuthorize, usersRoute)
 

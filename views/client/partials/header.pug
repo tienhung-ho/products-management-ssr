@@ -35,7 +35,9 @@ header.header
                 if (layoutProductsCategories)
                   +multilevel-menu(layoutProductsCategories, '/product')
             if user
-              li.col-4 
+              li
+                a(href="/rooms-chat") Phòng chat
+              li.me-5
                 a(href="/users/friends") Bạn bè
               //- .header_toggle
                 //- i.bx.bx-menu#header-toggle
