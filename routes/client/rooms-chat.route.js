@@ -8,6 +8,12 @@ const roomChatController = require('../../controllers/client/rooms-chat.controll
 router.get('/', 
 roomChatController.index)
 
+router.get('/create', 
+roomChatController.create)
+
+router.post('/create', 
+roomChatController.createPost)
+
 
 
 module.exports = router

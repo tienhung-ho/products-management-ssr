@@ -17,20 +17,19 @@ block main
         ) Tạo phòng
       
     .row
-      .col-6 
-        div(class='box-room')
-          div(class='inner-avatar')
-            img(
-              src='https://robohash.org/hicveldicta.png'
-              alt='Room abc'
-            )
-          div(class='inner-info')
-            div(class='inner-name') Room abc
-            div(class='inner-buttons')
-              a(
-                href="#"
-                class='btn btn-sm btn-primary mr-1'
-              ) Send message
-          
-
-        
+      for room in roomsChat
+        .col-6 
+          div(class='box-room')
+            div(class='inner-avatar')
+              img(
+                src='https://robohash.org/hicveldicta.png'
+                alt='Room abc'
+              )
+            div(class='inner-info')
+              div(class='inner-name') #{room.title} 
+              div(class='inner-buttons')
+                a(
+                  href=`/chat/${room.id}`
+                  class='btn btn-sm btn-primary mr-1'
+                ) Send message
+      
